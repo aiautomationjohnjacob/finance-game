@@ -1,185 +1,199 @@
 # Decisions — FinanceGame
 
-Single source of truth. Synthesized from Pass 1 research (all 6 goals).
-Phase: BUILDING — orchestrator may begin constructing the app.
+Single source of truth. Synthesized and stress-tested across 3 research passes (18 total agent reports).
+Phase: BUILDING — all decisions locked. Do not revisit without user instruction.
 
 ---
 
 ## Goal 1 — Game Type & Mechanic
 
-**Decision: Narrative life-sim + idle compounding hybrid**
+**Lead mechanic: the debt clock slider — build this first.**
+Credit card balance + APR + payment slider = months to payoff + total interest paid, updating in real time. This is the aha moment that earns word-of-mouth. It ships in session 1. (~20 lines of JavaScript.)
 
-- Primary mechanic: monthly turn-based life simulation. Each "month" the player receives income, pays obligations, draws a life event card, makes financial decisions, sees results.
-- Retention layer: idle/incremental compounding — numbers visibly grow between turns to reinforce compounding concepts.
-- No competitor covers the full combination of: free + web-first + no sign-up + ages 13–50+ + credit cards through options/futures. Clear market gap.
-- Reference implementations proving the approach: Spent (narrative scenario cards), Cookie Clicker (idle compounding loop), Investopedia Simulator (paper trading).
-- One progressive game, NOT separate mini-games. Content tiers unlock as player advances ("first credit card at 16" → "running the wheel strategy at 35").
+**Full game: narrative life-sim with persistent consequence loop.**
+Each month: receive income → pay obligations → draw a life event card → make a decision → see consequences compound over time. The "my debt is still there next month" open loop is the structural protection against the Fingo failure mode (Duolingo-for-finance that went offline — users completed the quiz deck once and never returned; our persistent state prevents that).
+
+**Audience split:**
+- Default experience: Young Adult (22–35)
+- Second track: Teen classroom mode (same engine, different starting state and narrative voice — preserved for the 30-state graduation mandate distribution channel)
+
+**Market gap is real and verified.** No free + web-first + no-signup + broad-age + full-topic product exists as of March 2026. localStorage-only architecture eliminates the server cost that killed Fingo.
+
+**Realistic 12-month scale with no marketing budget:** 2,000–8,000 unique visitors/month. Sufficient — operating cost is near zero on static hosting.
 
 ---
 
-## Goal 2 — Financial Topics & Learning Progression
+## Goal 2 — Financial Topics & V1 Scope
 
-**Decision: 5-tier mastery-gated content tree**
+**OPTIONS AND FUTURES ARE V2 ONLY.**
+Peer-reviewed research (ScienceDirect 2025, Ohio State 2021) documents that partial options knowledge + overconfidence directly leads to real financial losses. Shipping without a mandatory catastrophic failure path would cause harm. They are deferred, not removed.
 
-Priority order (build in this sequence):
+**V1 Content (build in this order):**
 
-| Tier | Topic | Why First |
-|------|-------|-----------|
-| 1 | Credit card debt + budgeting basics | 47% carry a balance; minimum payment trap is strongest "aha" mechanic; teachable at age 13 |
-| 2 | Debt simulation (avalanche/snowball, emergency fund) | Broad audience impact; reinforces Tier 1; random life events mechanic |
-| 3A | Stock basics / index funds | 58.6% of individual stocks destroyed wealth; index vs. stock-picker race mechanic |
-| 3B | Mortgages + amortization | Front-loading of interest is deeply counterintuitive; reaches 30–50+ cohort |
-| 4 | Stock options — the wheel strategy | Gated after stock basics; covered call + cash-secured put progression; catastrophic failure scenario included |
-| 5 | Futures | Expert/opt-in only; margin call experience; appropriately marked as high-risk |
+| Order | Module | Key mechanic |
+|-------|--------|--------------|
+| 0 | Budget baseline | Income/expense setup — foundation for all modules |
+| 1 | Credit cards & emergency fund | Debt clock slider; emergency fund wipe by random event |
+| 2 | Debt simulation | Avalanche vs. snowball side-by-side race |
+| 3A | Index funds | Index vs. stock-picker race; fee eater compounding viz |
+| 3B | 401(k) employer match | Match capture bar — highest-ROI action available |
+| 3C | Mortgages | Animated amortization bar; fixed vs ARM comparison |
 
-Key mechanic per topic:
-- **Credit cards:** debt clock + payment slider — player sees months-to-payoff change in real time
-- **Debt sim:** avalanche vs. snowball side-by-side race; emergency fund wipe by random event
-- **Stocks:** paper trading with fictional tickers; scripted news events; fee eater compounding viz
-- **Mortgage:** animated amortization bar shifting from interest-heavy to principal-heavy over 30 years
-- **Options:** three-phase: (1) rental metaphor → (2) spinning wheel cycle → (3) math; catastrophic failure demo included
-- **Futures:** farmer/bread company hedging framing first, speculation second; forced margin call experience
+**Taxes and insurance:** woven into scenario cards throughout, not standalone modules.
 
-Completing all 5 tiers puts the player in the top 10–15% of American adult financial literacy (FINRA benchmark).
+**APR for simulations:** 24–25% (CFPB 2025 market rate). No softening — a lower rate teaches that credit card debt is less dangerous than it is.
+
+**Just-in-time delivery verified:** Kaiser & Menkhoff (World Bank WPS8161, 2017/2019) — teachable-moment delivery produces 48% larger effects than advance instruction. The scenario card mechanic (content fires at the moment of decision) is pedagogically optimal, confirmed across 126 studies.
+
+**Sequential gating:** Hard gate only at the Tier 3 → options boundary (V2). Within V1 tiers 1–3, parallel navigation is acceptable after the budget baseline is complete.
 
 ---
 
 ## Goal 3 — Audience & Pedagogy
 
-**Decision: Three personas, one progressive difficulty path**
+**Primary audience: Alex (22–35).** Full prefrontal cortex development, active real financial decisions, highest probability of durable behavior change from teachable-moment design.
 
-**Persona 1 — Jordan (16, "Anxious Starter")**
-- Session: 5–8 min. Reading: 6th–8th grade. Motivation: streaks, badges, social.
-- Entry point: Tier 1 (credit cards). Narrative framing: first job, first credit card offer.
+**Secondary: Morgan (36–52).** Highest-value content gap. Highest dropout risk in minute 1 if the game feels juvenile. Must have a skip-scaffolding path via the placement assessment.
 
-**Persona 2 — Alex (25, "Overwhelmed Navigator")**
-- Session: 8–15 min. Reading: 9th–11th grade. Motivation: practical utility, scenario modeling.
-- Entry point: any tier. Narrative: student loans, first apartment, 401k decisions.
+**Tertiary: Jordan (15–21).** Institutional distribution priority. Success metric is anxiety reduction and schema familiarity — not behavioral transformation (knowledge decays within 12–18 months without reinforcement).
 
-**Persona 3 — Morgan (42, "Catch-Up Optimizer")**
-- Session: 15–25 min. Reading: adult. Motivation: ROI framing, benchmark comparisons, calculators.
-- Entry point: Tier 3B–5. Does not tolerate being patronized. Needs embedded calculators.
+**Onboarding: 5-question placement assessment, not age selection.**
+Probes financial product experience, net worth awareness, and confidence/anxiety level.
+Routes to one of 3 tracks:
+- Start Here (~60% of users) — full scaffold from budget basics
+- Fill the Gaps (~30%) — skip to detected weak spots
+- Go Deep (~10%) — advanced starting state, compressed onboarding
 
-**Pedagogical rules:**
-- Aligned game mechanic (player makes the financial decision, sees consequence) → proven 0.313 SD improvement (multi-country RCT, 2024)
-- Never quiz-only — player must make consequential decisions, not just answer trivia
-- 80% quiz score required to unlock next tier
-- No global leaderboards — self-comparison and optional classroom mode only
-- Emergency fund random events are the most effective retention mechanic for Tier 1–2
+**Do not overclaim.** No strong RCT evidence exists for self-directed financial literacy games producing measurable behavior change in voluntary adult users. The project can claim "game-based approach with RCT support in school settings" — nothing stronger.
 
-**Onboarding:** Player picks a starting scenario (Teen with first job / Young Adult with student loans / Adult catching up) — this sets narrative framing and starting financial state, not a separate difficulty mode.
+**Session lengths:** 3–6 min teens, 10–20 min adults. Design each monthly session as self-contained — delivers value independently, not as part of a linear story.
 
----
-
-## Goal 4 — Platform & Tech Stack
-
-**Decision: Vanilla JS + Chart.js (CDN) + Alpine.js (CDN) + localStorage**
-
-```
-index.html          ← single entry point
-css/style.css       ← flat design, CSS custom properties, no framework
-js/game.js          ← core game loop and state
-js/finance-math.js  ← all financial formulas (amortization, compound, Black-Scholes simplified)
-js/scenarios.js     ← life event card data
-js/modules/         ← one file per content module (credit-card.js, mortgage.js, etc.)
-```
-
-CDN libraries (loaded via `<script>` tag — zero build step):
-- **Chart.js** (~65 KB gzip): all charts — debt curve, amortization bar, portfolio line, Monte Carlo scatter
-- **Alpine.js** (~15 KB gzip): reactive UI without DOM boilerplate — ideal for card reveals, tab switching, form binding
-
-Explicitly excluded:
-- React, Vue, Svelte, or any npm-built framework
-- External APIs (all prices are seeded pseudo-random walk, not live)
-- Phaser.js (overkill, ~980 KB)
-- Tailwind CDN (350 KB, dev-only)
-
-**Financial math in vanilla JS:**
-- Amortization: standard formula `P * r*(1+r)^n / ((1+r)^n - 1)`
-- Compound interest: `P * (1 + r/n)^(n*t)`
-- Stock simulation: seeded linear congruential generator for reproducible sessions
-- Monte Carlo (1,000 paths × 252 days): runs in <10ms in browser — use for options visualization
-- Black-Scholes: ~15-line polynomial approximation for normal CDF
-
-**Storage:** localStorage only. No backend, no accounts. Save entire game state as one JSON blob.
-
-**PWA:** Add `manifest.json` + minimal `sw.js` (~30 lines) after core game is complete. iOS 16.4+ supports install. Android shows automatic install prompt.
+**WCAG 2.2 AA requirements (4 criteria most devs miss):**
+- SC 2.5.8: 44px minimum touch targets including offset spacing between clusters
+- SC 2.4.11: sticky headers/card overlays must not obscure focused elements
+- SC 2.4.13: focus indicator must meet 3:1 contrast ratio (browser defaults often fail)
+- SC 2.5.7: payment slider must have a non-drag keyboard/button alternative
 
 ---
 
-## Goal 5 — Business Strategy & Go-to-Market
+## Goal 4 — Platform & Tech Stack (Final, No Optionals)
 
-**Decision: B2C launch → B2B2C credit union sponsorship → grants**
+**File structure (4 files, with line budgets):**
+```
+index.html              ← single entry point
+vendor/
+  chart.umd.min.js      ← Chart.js 204KB, vendored locally
+  alpinejs.cdn.min.js   ← Alpine.js 46KB, vendored locally
+css/
+  style.css             ← flat design, CSS custom properties
+js/
+  game.js               ← core loop, state, navigation (<600 lines)
+  math.js               ← all financial formulas (<400 lines)
+  scenarios.js          ← life event card data (<400 lines)
+  charts.js             ← all Chart.js wrappers (<300 lines)
+```
 
-**Phase 1 (Launch): Free web, no accounts required**
-- Publish at a clean domain. No sign-up friction for players.
-- Submit to Jump$tart Clearinghouse (free, reaches all 51 state financial literacy coalitions).
-- Post to r/personalfinance (21.4M members), r/financialindependence, r/investing on launch day.
-- SEO: "financial literacy game" space is populated by listicles, not playable tools — a real free tool attracts backlinks organically from state resource pages.
+**Libraries are vendored locally** (not CDN). `open index.html` → works with zero network dependency. Total vendor size: 250KB — negligible on USB/email.
 
-**Phase 2 (Monetization): Credit union sponsor model (Banzai template)**
-- Credit unions pay $500–$5,000/year to sponsor their local schools (CRA compliance motivation).
-- Schools get free access + teacher dashboard.
-- Target: 26 states now mandate personal finance for graduation (up from 8 in 2020) — 20,000 new teachers need curriculum tools.
-- NGPF model reached 127,000 educators this way. Banzai reached 70%+ of U.S. schools.
+**Alpine.js scope boundary (hard rule):** Alpine handles structural UI state only (tab switching, modal visibility, form binding). It NEVER touches rendered financial data, chart containers, or game state calculations. All financial logic lives in plain JS files. This constraint eliminates the LLM error pattern (x-if/x-for on wrong elements).
 
-**Phase 3 (Grants):**
-- FINRA Foundation: $50K–$100K, rolling concept forms
+**Storage:** localStorage + Export/Import save button. URL-encoded state rejected (game state reaches 4,000–11,000+ chars base64 — too long). Export/Import pattern proven by Universal Paperclips and A Dark Room.
+
+**PWA:** Cut from V1. Desktop PWA notification acceptance is 6%; iOS requires custom manual-install instructional UI. Deferred until after Milestones 1–6 pass at a real HTTPS URL.
+
+**No build tools.** Open index.html in browser → it works. Puppeteer in `scripts/` is for testing only, not part of the app.
+
+---
+
+## Goal 5 — Business Strategy & GTM
+
+**Pre-launch actions (complete before shipping):**
+1. Apply for Fractured Atlas fiscal sponsorship (days to approve — unlocks all grant programs). **Note:** Open Collective Foundation dissolved December 31, 2024 — it is no longer an option.
+2. Prepare teacher materials: Jump$tart crosswalk (2 days), module discussion guides (1 day), teacher one-pager (4 hours). Do this before launch — launching without teacher infrastructure is the #1 free EdTech failure mode.
+3. Submit to Jump$tart Clearinghouse before launch day (permanent referral traffic, 51 state affiliates).
+
+**Launch day:**
+- Show HN ("Show HN: Free financial literacy game — credit cards, debt, investing") — 3,500–8,000 visitors for a front-page post
+- r/Teachers post simultaneously (the correct Reddit channel — r/personalfinance auto-moderator blocks new accounts)
+- Direct outreach to 10 financial literacy teachers (personalized emails, not broadcast)
+
+**Post-launch (months 1–3):**
+- Build toward CU pitch threshold: 3 named teachers in 2+ states + Jump$tart listing + estimated student reach
+- Realistic first CU deal: 6–9 months post-launch
+- Begin 3 small CU conversations in Month 2–3 (only after 50+ teacher users)
+
+**Grants (after Fractured Atlas approval):**
+- FINRA Foundation: $50K–$100K, rolling
 - CalMoneySmart (CA DFPI): up to $200K, cycle opens early 2026
-- NEFE: research-oriented, spring cycle
+- NEFE: spring cycle
 - Rose Foundation: up to $100K
 
-**Not doing (yet):** paid ads, native apps, district sales cycles, VC funding.
+**Monetization model:** Free for students (no accounts required). Credit union sponsorship ($500–$5,000/year per CU) funds teacher access + future development. No ads, no paywalled content.
+
+**State mandate tailwind:** 30 states now mandate personal finance for graduation (up from 26 mid-2025; Delaware joined October 2025). 20 of the 30 are still phasing in — the opportunity window is now.
 
 ---
 
-## Goal 6 — Game Design
+## Goal 6 — Game Design (MVP V1 Spec)
 
-**Decision: Monthly turn-based sim, 10 screens, mastery-gated tiers**
+**5 screens (MVP — nothing else ships in V1):**
+
+| Screen | Purpose |
+|--------|---------|
+| 1. Onboarding | 5-question placement → pick scenario → name → Month 1 begins |
+| 2. Dashboard | Primary metric + cash flow delta + nav to Financials + event indicator |
+| 3. Life Event Card | Full-screen overlay, 2–4 choices, consequence preview |
+| 4. Financials | 3 tabs: Debt / Portfolio / Budget |
+| 5. Month Summary | Cash flow delta with attribution, one decision-quality sentence, 4-number snapshot, next month preview — fits on one mobile screen |
+
+**Does NOT ship in V1:** Learning Center screen, Achievement Grid, Options module, Futures module, PWA, leaderboards, fast-forward button.
+
+**Primary metric by tier:**
+- Tiers 1–2: Cash Flow (monthly income minus expenses minus debt payments)
+- Tier 3+: Net Worth (assets minus liabilities)
+- Teen scenario: Savings Rate % until Tier 2 unlocks
 
 **Core game loop (each turn = 1 month):**
-1. Receive income (salary ± bonuses from events)
-2. Auto-pay fixed obligations (rent/mortgage, minimum debt payments)
-3. Player allocates discretionary money (extra debt payment, invest, save, spend)
-4. Draw life event card → make a decision
-5. Markets update (stock prices move, interest accrues)
-6. See net worth delta + any achievement unlocks
-7. Advance to next month
+1. Receive income (± event modifiers)
+2. Auto-pay fixed obligations
+3. Surplus Allocation Challenge if no crisis (constrained optimization: "You have $400 — extra debt payment vs. Roth contribution vs. emergency fund")
+4. Draw life event card if crisis → make choice
+5. Markets + interest update
+6. Month Summary screen
+7. Advance
 
-**10 screens:**
-1. **Onboarding** — pick starting scenario (Teen / Young Adult / Adult), enter name
-2. **Dashboard (hub)** — net worth, cash, debt total, investment value, month counter, navigation
-3. **Life Event Card** — full-screen card overlay with scenario and 2–4 choices
-4. **Debt Tracker** — all debts, balances, APRs, payment slider, payoff timeline
-5. **Portfolio** — stock holdings, buy/sell interface, price chart, P&L
-6. **Learning Center** — unlocked topic cards (credit, mortgage, options, futures)
-7. **Module detail** — one per topic (mortgage calculator, options demo, futures simulation)
-8. **Achievement Grid** — badges, streak counter, tier progress
-9. **Year-End Summary** — net worth change, grade, decisions recap, share button
-10. **Quiz** — 5 questions, 80% to unlock next tier
+**20 life event cards (minimum deck size).**
+Shuffled deck draw (not random) — prevents repeats within a run.
+Five fully-designed example cards in `pass3/goal6-game-design.md`.
 
-**Visual style (no artist required):**
-- Flat design, card-based, CSS Grid layout
-- Color palette: 3 primary colors + semantic red/green for gain/loss
-- Charts: Chart.js for everything data-heavy; CSS/SVG for decorative elements
-- Icons: emoji as semantic icons (💳 credit card, 🏠 mortgage, 📈 stocks, ⚙️ options, 🌾 futures)
-- Typography: system font stack (`-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif`)
-- Accessible contrast — WCAG AA minimum throughout
+**Starting financial states (verified against Fed SCF 2022):**
 
-**Starting financial states by scenario:**
-- Teen: $800 cash, $0 debt, $0 investments, $1,200/mo income (part-time)
-- Young Adult: $2,000 cash, $38,000 student debt, $500 investments, $3,500/mo income
-- Adult: $8,000 cash, $220,000 mortgage, $45,000 investments, $6,500/mo income
+| Scenario | Cash | Debt | Income/mo |
+|----------|------|------|-----------|
+| Teen (Jordan) | $500 | $0 | $800 (part-time) |
+| Young Adult (Alex) | $2,000 | $26,000 student debt | $3,500 |
+| Adult (Morgan) | $8,000 | $220,000 mortgage | $6,500 |
 
-**Life event card deck (minimum 12 at launch):**
-Car breakdown ($800), Medical bill ($2,400), Unexpected bonus (+$1,500), Job loss (3 months), Credit card offer (accept/decline), Market crash (-30%), Tax refund (+$1,200), Rent increase (+$300/mo), Side hustle opportunity, Home repair ($3,500), Stock tip (temptation mechanic), Refinancing offer
+**Anti-patterns explicitly prohibited:**
+- No hard game-over states (intervention/coaching screens instead)
+- No punitive streak loss
+- No pure-random card draw (use shuffled deck)
+- No near-miss badge mechanics
+- No FOMO urgency events
+- No grading of decisions on Month Summary (use descriptive signal only)
+- No fast-forward button (boring phases solved by Surplus Allocation Challenge)
+
+**First decision within 60 seconds.** No tutorial wall. Placement questions → scenario selection → Month 1 starts. The debt clock slider aha moment must land in session 1.
 
 ---
 
-## Architecture — Locked
+## Architecture (Locked)
 
 - HTML/CSS/JS only. `open index.html` → works.
-- Chart.js + Alpine.js via CDN `<script>` tags.
-- localStorage for all save state.
+- Chart.js + Alpine.js vendored locally in `vendor/`.
+- localStorage + Export/Import for all save state.
 - No external APIs required to run.
-- Puppeteer (in `scripts/`) for testing only — not part of the app.
+- No build tools, no npm for the app itself.
+- Puppeteer in `scripts/` for automated testing only.
+- Options and futures: V2 only.
+- PWA: V2 only.
