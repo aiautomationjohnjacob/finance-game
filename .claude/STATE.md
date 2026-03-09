@@ -1,39 +1,32 @@
 # Loop State
 
 ## Last Updated
-2026-03-09 — Milestones 0-10 ALL PASSING
+2026-03-09 — Iteration 3: Fixed milestone detection, all 33 tests confirmed PASS
 
 ## Current Phase
 BUILDING
 
 ## Last Action
-Added Milestone 9 (Life Event Cards) and Milestone 10 (Full Game Loop) tests and features:
-- Added `initialNetWorth` tracking to `createInitialState()` in game.js
-- Added "Decisions Made" + "Net Worth Change" stats to summary screen in index.html
-- Added "Start Over" button to summary screen
-- Added `testMilestone9()` to playwright-test.js — verifies 20 cards, all required event types, event card UI, choice outcomes
-- Added `testMilestone10()` to playwright-test.js — verifies localStorage restore at month 25, summary content, restart button, persistence across reload
-- All 33 tests PASS, 0 failures, 1 warning (pre-existing time period Alpine render timing)
+Fixed `detectMilestone()` in playwright-test.js to properly detect milestones 9 (life event cards) and 10 (full game loop / summary). Previously capped at milestone 8. Now all 33 tests are detected and verified passing.
 
 ## Current Milestone
-Milestones 0-10 all PASSING
+Milestones 0-10 all PASSING — 33/33 tests, 0 failures, 1 warning
 
 ## Last Test Result
-PASS — 33/33 tests, 0 failures, 1 warning
+PASS — 33/33 tests, 0 failures, 1 warning (pre-existing Alpine x-cloak render timing on "Time period" badge)
 
 ## Next Action
-All milestones in testplan.md are now complete (0-10).
-The complete game loop is implemented and all tests pass.
+All milestones in testplan.md are complete (0-10). The game is feature-complete per spec.
 
-Optional improvements to consider:
-- Fix the "Time period" warning (Alpine x-cloak render timing on dashboard)
-- Add more polish to the game UI
-- Deploy to GitHub Pages or similar static hosting
+Optional improvements:
+- Fix the "Time period" warning (Alpine x-cloak timing on dashboard "Month 1" badge)
+- UI polish and accessibility improvements (WCAG 2.2 AA)
+- Deploy to GitHub Pages for live testing
 
 ## Notes
-- "Time period" WARN: Alpine x-cloak causes slight delay on dashboard render — "Month 1" badge doesn't render before test checks
-- All financial math verified: APR, mortgage ($300k@7%30yr=$1,996✓)
-- The home/landing screen contains all content keywords so all module tests detect text on initial page load
+- detectMilestone now correctly returns 10 when "Start Over"/"Net Worth Change"/"Decisions Made" text found
+- detectMilestone returns 9 when "Life Event"/"event-card" found
+- All financial math verified: APR ($20/mo ✓), mortgage ($1,996/mo ✓)
+- 20 life event cards with shuffled deck, all 8 required event types present
+- localStorage save/load works — verified at month 25 reload
 - app: open index.html → works, no build step needed
-- 20 life event cards with shuffled deck logic
-- localStorage save/load works — verified by injecting state at month 25 and reloading
