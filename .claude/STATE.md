@@ -1,24 +1,23 @@
 # Loop State
 
 ## Last Updated
-2026-03-09 — Iteration 16: Verified all 34/34 tests still passing. No code changes needed — V1 is complete.
+2026-03-09 — Iteration 17: Updated README.md with complete project documentation. 34/34 tests still passing.
 
 ## Current Phase
 BUILDING
 
 ## Last Action
-Created `teachers.html` — complete teacher resources page containing:
-1. Teacher one-pager: class structure, tech requirements, 50-min session plan
-2. Jump$tart Coalition Standards Crosswalk (6th edition, all 6 standards mapped
-   to specific game modules with grade band badges)
-3. Module discussion guides (8 modules: Budget, Credit Card, Debt Strategies,
-   Index Funds, 401k, Mortgage, Life Events, Month Summary)
-4. Suggested assessment approaches (no grading game performance)
-5. Pedagogical foundation (Kaiser & Menkhoff just-in-time instruction citation)
-Added "For Teachers" link in home screen footer → teachers.html
+Updated README.md from stale placeholder ("Planned Features / Coming soon") to comprehensive project documentation including:
+- Live GitHub Pages URL
+- Full feature list for all V1 modules
+- Getting started instructions
+- Teacher resources section with Jump$tart crosswalk link
+- Starting scenarios table
+- Technical details, WCAG compliance, financial math accuracy
+- Design principles (no game-over, shuffled deck, first decision in 60s)
+- Sustainability/monetization model
 
-All 34/34 tests still passing after changes.
-Committed and pushed: cad89f7
+Committed: 0264a12, pushed to main.
 
 ## Current Milestone
 Milestones 0-10 all PASSING — 34/34 tests, 0 failures, 0 warnings
@@ -27,28 +26,20 @@ Milestones 0-10 all PASSING — 34/34 tests, 0 failures, 0 warnings
 PASS — 34/34 tests, 0 failures, 0 warnings
 
 ## Next Action
-Pre-launch checklist from decisions.md — remaining items:
-1. Submit to Jump$tart Clearinghouse (external action — requires user to submit)
-2. Apply for Fractured Atlas fiscal sponsorship (external action — requires user)
-3. Launch day: Show HN post + r/Teachers post (external actions)
-
-All code deliverables are COMPLETE. The app is feature-complete for V1:
-- 5 screens (Home, Onboarding, Dashboard, Financials, Month Summary)
-- 6 financial modules (Credit, Debt, Index Funds, 401k, Mortgage, Stocks)
-- Options + Futures (V2 content, present but labeled)
-- 20 life event cards
-- localStorage save/load + Export/Import
-- WCAG 2.2 AA compliance
-- GitHub Pages live: https://aiautomationjohnjacob.github.io/finance-game/
-- Teacher resources page with Jump$tart crosswalk
+All code deliverables are COMPLETE. Remaining items require user action:
+1. Submit to Jump$tart Clearinghouse (external — permanent referral traffic)
+2. Apply for Fractured Atlas fiscal sponsorship (external — unlocks grant programs)
+3. Launch day: Show HN post + r/Teachers post (external)
+4. Direct outreach to 10 financial literacy teachers (external)
 
 ## Notes
+- Live at: https://aiautomationjohnjacob.github.io/finance-game/
+- Teacher resources: https://aiautomationjohnjacob.github.io/finance-game/teachers.html
 - All WCAG 2.2 AA criteria addressed (SC 2.5.8, 2.4.11, 2.4.13, 2.5.7)
 - Financial math verified: APR ($20/mo ✓), mortgage ($1,996/mo ✓)
 - 20 life event cards with shuffled deck, all 8 required event types present
-- localStorage save/load works
+- localStorage save/load + Export/Import works
 - Budget tab functional (6th tab in financials)
-- GitHub Pages live: https://aiautomationjohnjacob.github.io/finance-game/
-- SVG icons throughout (no emoji rendering issues in headless Chrome)
+- SVG icons throughout (no emoji rendering issues)
 - Teacher resources: teachers.html linked from home screen
-- Remaining pre-launch steps require user action (external submissions/posts)
+- V1 is COMPLETE — no further code changes needed
