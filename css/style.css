@@ -141,6 +141,7 @@ body {
 }
 
 .hero-emoji { font-size: 3rem; display: block; margin-bottom: 12px; }
+.hero-icon { width: 4rem; height: 4rem; display: block; margin: 0 auto 12px; }
 
 .hero h1 {
   font-size: 2rem;
@@ -169,6 +170,7 @@ body {
 }
 
 .module-card-emoji { font-size: 1.6rem; display: block; margin-bottom: 6px; }
+.module-card-icon { width: 2rem; height: 2rem; display: block; margin-bottom: 6px; color: var(--primary); }
 .module-card h3 { font-size: 0.85rem; font-weight: 700; margin-bottom: 4px; }
 .module-card p { font-size: 0.75rem; color: var(--muted); line-height: 1.4; }
 
