@@ -1,31 +1,37 @@
 # Loop State
 
 ## Last Updated
-2026-03-09 (initial setup)
+2026-03-09 — all 6 Pass 1 research agents completed, decisions synthesized
 
 ## Current Phase
-RESEARCH_PENDING
+BUILDING
 
 ## Last Action
-Project scaffolding complete. 6 research agents launched in parallel for Pass 1.
+All 6 Pass 1 research goals completed and synthesized into decisions.md.
+decisions.md is now the locked source of truth — ready to build.
 
 ## Current Milestone
-None — research phase, no app code yet.
+Milestone 0 — Skeleton (index.html must exist and load cleanly)
 
 ## Last Test Result
-NOT_RUN
+NOT_RUN (no app code yet)
 
 ## Next Action
-1. Check if all 6 pass1 research files exist in `.claude/research/pass1/`
-2. If all 6 exist: synthesize findings into `.claude/rules/decisions.md`, update phase to BUILDING
-3. If missing: proceed to BUILDING with available research, start with Milestone 0 (skeleton)
-4. After decisions.md has content: build `index.html` (Milestone 0)
-5. Run `bash scripts/test.sh 0` to verify skeleton
-6. Commit and push
+1. Build index.html + css/style.css + js/game.js skeleton
+   - Flat design, card-based UI
+   - Chart.js + Alpine.js loaded via CDN <script> tags
+   - Title: "FinanceGame" or similar
+   - Shows main menu (Milestone 1 content is fine to include here)
+2. Run: bash scripts/test.sh 0
+3. Fix any failures
+4. Commit + push
+5. Move to Milestone 1 (main menu) if Milestone 0 passes
 
 ## Notes
-- App must be simple HTML/CSS/JS only — no frameworks, no npm for the app itself
-- Playwright test runner is set up in scripts/
-- Test plan is in .claude/rules/testplan.md
-- Loop rules are in .claude/rules/loop.md
-- Research agents may still be running — check .claude/research/pass1/ for files
+Key decisions locked in decisions.md:
+- Stack: Vanilla JS + Chart.js + Alpine.js (CDN) + localStorage
+- Game: monthly turn-based life sim, 10 screens, 5 content tiers
+- Starting scenarios: Teen / Young Adult / Adult (different financial states)
+- File structure: index.html + css/style.css + js/game.js + js/finance-math.js + js/scenarios.js + js/modules/
+- Color: flat design, system fonts, emoji icons, Chart.js for all charts
+- NO frameworks, NO npm for the app, NO external APIs
