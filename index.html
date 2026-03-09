@@ -231,8 +231,8 @@
 
     <!-- Advance month -->
     <div style="display:flex;gap:8px;">
-      <button class="btn btn-primary" @click="advanceMonth()" style="flex:1;">
-        ▶ Advance to Month <span x-text="state ? state.month + 1 : 2"></span>
+      <button class="btn btn-primary" @click="advanceMonth()" style="flex:1;"
+        x-text="'\u25B6 Advance to Month ' + (state ? state.month + 1 : 2)">
       </button>
       <button class="btn btn-icon" @click="exportSave()" aria-label="Export save" title="Export save file">💾</button>
     </div>
@@ -848,8 +848,7 @@
       </div>
     </template>
 
-    <button class="btn btn-primary" @click="continueSummary()">
-      Continue to Month <span x-text="state ? state.month : ''"></span> →
+    <button class="btn btn-primary" @click="continueSummary()" x-text="'Continue to Month ' + (state ? state.month : '') + ' \u2192'">
     </button>
     <button class="btn btn-secondary" @click="resetGame()" style="margin-top:8px;width:100%;">
       Start Over
