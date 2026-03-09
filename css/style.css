@@ -250,6 +250,7 @@ body {
 
 .nav-btn:hover { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
 .nav-btn-emoji { font-size: 1.5rem; }
+.nav-btn-icon { width: 1.5rem; height: 1.5rem; color: var(--primary); flex-shrink: 0; }
 .nav-btn-label { font-size: 0.8rem; font-weight: 600; text-align: center; }
 .nav-btn-sub { font-size: 0.7rem; color: var(--muted); text-align: center; }
 
