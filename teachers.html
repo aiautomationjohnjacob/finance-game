@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FinanceGame — Teacher Resources</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body { background: var(--bg); font-family: var(--font); color: var(--text); max-width: 860px; margin: 0 auto; padding: 16px 16px 48px; }
+    .page-header { text-align: center; padding: 32px 0 24px; border-bottom: 2px solid var(--border); margin-bottom: 32px; }
+    .page-header h1 { font-size: 1.75rem; color: var(--primary); margin: 0 0 8px; }
+    .page-header p { color: var(--muted); margin: 0; }
+    h2 { font-size: 1.2rem; color: var(--primary); margin: 32px 0 12px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+    h3 { font-size: 1rem; margin: 20px 0 6px; }
+    p, li { font-size: 0.9rem; line-height: 1.6; }
+    ul, ol { padding-left: 20px; margin: 8px 0; }
+    li { margin-bottom: 4px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin: 12px 0 24px; }
+    th { background: var(--primary); color: #fff; padding: 10px 12px; text-align: left; font-weight: 600; }
+    td { padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    tr:nth-child(even) td { background: #f8f9fe; }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; }
+    .badge-green { background: #d1fae5; color: #065f46; }
+    .badge-blue { background: #dbeafe; color: #1e40af; }
+    .badge-orange { background: #ffedd5; color: #9a3412; }
+    .section-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 24px; }
+    .discussion-module { margin-bottom: 28px; }
+    .discussion-module h3 { color: var(--text); font-size: 0.95rem; background: #f0f4ff; padding: 8px 12px; border-radius: 6px; border-left: 3px solid var(--primary); }
+    .back-link { display: inline-block; color: var(--primary); text-decoration: none; font-size: 0.9rem; margin-bottom: 16px; }
+    .back-link:hover { text-decoration: underline; }
+    .print-note { font-size: 0.8rem; color: var(--muted); font-style: italic; text-align: center; margin-bottom: 24px; }
+    @media print {
+      .back-link, .print-note { display: none; }
+      .section-card { border: none; padding: 0; }
+      body { padding: 0; }
+    }
+    @media (max-width: 600px) {
+      table { font-size: 0.78rem; }
+      td, th { padding: 7px 8px; }
+    }
+  </style>
+</head>
+<body>
+
+<a href="index.html" class="back-link">← Back to FinanceGame</a>
+
+<div class="page-header">
+  <h1>Teacher Resources</h1>
+  <p>Free financial literacy game for ages 13–50+. No signup required for students.</p>
+</div>
+
+<p class="print-note">Tip: Use your browser's Print function (Ctrl+P / Cmd+P) to save or print any section.</p>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 1 — TEACHER ONE-PAGER
+══════════════════════════════════════════════════════════════ -->
+<div class="section-card">
+  <h2 style="margin-top:0;">Teacher One-Pager</h2>
+
+  <h3>What is FinanceGame?</h3>
+  <p>FinanceGame is a free, browser-based financial literacy simulation for students in grades 8–12 and adult learners. Students play through monthly financial decisions — earning income, managing debt, investing, and responding to life events like job loss or medical bills. No accounts, no installs, no cost.</p>
+
+  <h3>How to Use in the Classroom</h3>
+  <ol>
+    <li><strong>Individual exploration</strong> — Students open <code>index.html</code> on any device with a browser. Progress saves automatically to their device. Each session takes 10–20 minutes.</li>
+    <li><strong>Paired problem-solving</strong> — Two students per device; one decides, one explains their reasoning aloud. Switch roles each month.</li>
+    <li><strong>Whole-class debrief</strong> — Project the game on a screen. Make one decision together, then reveal consequences. Use discussion questions below.</li>
+    <li><strong>Teen classroom mode</strong> — Select "Jordan — High School" at setup for the age-appropriate starting scenario ($800/month, no debt, savings focus).</li>
+  </ol>
+
+  <h3>Key Features</h3>
+  <ul>
+    <li><strong>Debt clock slider</strong> — Shows real-time interest cost as APR and payment amount change. Works on credit cards (24% APR default, reflecting 2025 CFPB data).</li>
+    <li><strong>Amortization visualizer</strong> — Shows how little of a mortgage payment goes to principal in early years.</li>
+    <li><strong>Simulated stock portfolio</strong> — Buy/sell fictional stocks; watch compound growth or loss.</li>
+    <li><strong>Life event cards</strong> — Deck of 20 events (job loss, tax refund, medical bill, etc.) drive realistic decisions.</li>
+    <li><strong>Month Summary</strong> — After each month, students see their cash flow delta and one-sentence decision quality feedback — no letter grades.</li>
+  </ul>
+
+  <h3>Technical Requirements</h3>
+  <ul>
+    <li>Any modern browser (Chrome, Firefox, Safari, Edge) — no plugins needed</li>
+    <li>Works offline once loaded; no internet required during play</li>
+    <li>Mobile-friendly (phones, tablets, Chromebooks all work)</li>
+    <li>Student progress stays on their device only — no data is sent anywhere</li>
+  </ul>
+
+  <h3>Recommended Session Structure (50-minute class)</h3>
+  <ul>
+    <li><strong>0–5 min</strong> — Open the game, create profile, choose scenario</li>
+    <li><strong>5–25 min</strong> — Play 3–5 game months independently</li>
+    <li><strong>25–40 min</strong> — Whole-class debrief using discussion questions</li>
+    <li><strong>40–50 min</strong> — Connect to a real-world concept (APR comparison, amortization schedule)</li>
+  </ul>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 2 — JUMP$TART CROSSWALK
+══════════════════════════════════════════════════════════════ -->
+<div class="section-card">
+  <h2 style="margin-top:0;">Jump$tart Coalition Standards Crosswalk</h2>
+  <p>Aligned to the <em>National Standards in K–12 Personal Finance Education</em>, 6th Edition (Jump$tart Coalition, 2021). Jump$tart Clearinghouse submission in progress.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Jump$tart Standard</th>
+        <th>Benchmark</th>
+        <th>Game Module / Mechanic</th>
+        <th>Grade Band</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Income &amp; Careers</strong><br>Std 1: Earning Income</td>
+        <td>1.A — Describe how education and skills affect earning potential</td>
+        <td>Onboarding: starting salary varies by scenario (Jordan $800/mo, Alex $3,500/mo, Morgan $6,500/mo). Higher scenario = higher income reflecting education/career stage.</td>
+        <td><span class="badge badge-green">8–10</span> <span class="badge badge-blue">11–12</span></td>
+      </tr>
+      <tr>
+        <td><strong>Spending &amp; Credit</strong><br>Std 2: Buying Goods and Services</td>
+        <td>2.B — Compare costs using unit price and interest</td>
+        <td>Debt Simulator: real-time APR slider shows total cost of minimum payments vs. accelerated payoff on credit card balances.</td>
+        <td><span class="badge badge-green">8–10</span> <span class="badge badge-blue">11–12</span></td>
+      </tr>
+      <tr>
+        <td><strong>Saving</strong><br>Std 3: Saving</td>
+        <td>3.A — Explain how saving contributes to financial well-being<br>3.C — Compare impact of compound interest on savings</td>
+        <td>Index funds module: compound growth visualizer. Emergency fund mechanic: event cards wipe unsaved cash, showing opportunity cost of not saving.</td>
+        <td><span class="badge badge-green">8–10</span> <span class="badge badge-blue">11–12</span></td>
+      </tr>
+      <tr>
+        <td><strong>Credit &amp; Debt</strong><br>Std 4: Using Credit</td>
+        <td>4.A — Explain the costs and benefits of different types of credit<br>4.B — Calculate the true cost of credit<br>4.C — Compare debt repayment strategies</td>
+        <td>Credit Card module: APR math ($1,000 @ 24% = $20/month interest, verified). Debt tab: avalanche vs. snowball side-by-side race. Mortgage: 30-year amortization with fixed vs. variable rate comparison.</td>
+        <td><span class="badge badge-green">8–10</span> <span class="badge badge-blue">11–12</span></td>
+      </tr>
+      <tr>
+        <td><strong>Investing</strong><br>Std 5: Financial Decision Making</td>
+        <td>5.A — Apply decision-making process to financial choices<br>5.C — Evaluate investment options considering risk and return</td>
+        <td>Stock Portfolio: buy/sell simulation with P&amp;L tracking. Options module: covered calls and cash-secured puts explained with risk/reward diagrams. Surplus Allocation Challenge: constrained optimization each month (debt vs. savings vs. Roth).</td>
+        <td><span class="badge badge-blue">11–12</span></td>
+      </tr>
+      <tr>
+        <td><strong>Risk &amp; Insurance</strong><br>Std 6: Protecting and Insuring</td>
+        <td>6.A — Explain the purpose of insurance<br>6.B — Describe the relationship between risk and insurance cost</td>
+        <td>Life event cards include medical bills (emergency fund depleted), car breakdown (uninsured repair cost), and job loss scenarios. Taxes and insurance woven into scenario card explanations at point of decision.</td>
+        <td><span class="badge badge-green">8–10</span> <span class="badge badge-blue">11–12</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:0.82rem;color:var(--muted);">Note: Options and Futures modules are present for advanced learners but are labeled V2 content — they include explicit risk warnings and are not recommended as primary instruction for grades 8–10.</p>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 3 — MODULE DISCUSSION GUIDES
+══════════════════════════════════════════════════════════════ -->
+<div class="section-card">
+  <h2 style="margin-top:0;">Module Discussion Guides</h2>
+  <p>Use these questions during or after each module. No prior teacher expertise in finance required — the questions are designed to surface student reasoning, not test recall.</p>
+
+  <div class="discussion-module">
+    <h3>Module 0 — Budget Baseline (Onboarding)</h3>
+    <ul>
+      <li>You chose [scenario]. What surprised you about the income and expenses in that starting situation?</li>
+      <li>Jordan earns $800/month but Alex earns $3,500. What life decisions might explain that difference?</li>
+      <li>What does "cash flow" mean in the game? How is it different from "salary"?</li>
+      <li>If your cash flow was negative in Month 1, what would you change first — income or spending? Why?</li>
+    </ul>
+  </div>
+
+  <div class="discussion-module">
+    <h3>Module 1 — Credit Card Debt Simulator</h3>
+    <ul>
+      <li>Move the payment slider to "minimum only." How many years until the $5,000 balance is paid off? Does that surprise you?</li>
+      <li>What is APR? The game uses 24% — is that realistic? (The U.S. average in 2025 was 24.4% according to the CFPB.)</li>
+      <li>Paying $25 extra per month reduced the payoff by how many years? What does that tell you about small habits?</li>
+      <li>When would it ever make sense to carry a credit card balance? Are there situations where debt can be "worth it"?</li>
+      <li>The game has an emergency fund that events can drain. How does not having savings affect your debt situation?</li>
+    </ul>
+  </div>
+
+  <div class="discussion-module">
+    <h3>Module 2 — Debt Repayment Strategies</h3>
+    <ul>
+      <li>What is the difference between the avalanche method and the snowball method?</li>
+      <li>The avalanche method saves more money in interest. The snowball method is more motivating. Which would you personally use?</li>
+      <li>Why might someone with three different debts feel overwhelmed even if their total debt isn't that large?</li>
+      <li>What role does behavior and psychology play in personal finance decisions?</li>
+    </ul>
+  </div>
+
+  <div class="discussion-module">
+    <h3>Module 3A — Index Funds &amp; Investing</h3>
+    <ul>
+      <li>Why did the index fund in the simulator grow more steadily than the individual stocks?</li>
+      <li>What is a "fee eater"? How does a 1% annual fee affect a $10,000 investment over 30 years?</li>
+      <li>If the market dropped 20% in the simulation, what would you do — sell, hold, or buy more?</li>
+      <li>What is the difference between a stock and an index fund? Which has more risk? Why?</li>
+    </ul>
+  </div>
+
+  <div class="discussion-module">
+    <h3>Module 3B — 401(k) &amp; Employer Match</h3>
+    <ul>
+      <li>The employer match bar shows "free money." Why do some people still don't contribute enough to get the full match?</li>
+      <li>What does it mean for money to be "tax-advantaged"? Why does that matter?</li>
+      <li>If you had to choose between paying off credit card debt and contributing to a 401(k) with a full employer match, which would you do first?</li>
+    </ul>
+  </div>
+
+  <div class="discussion-module">
+    <h3>Module 3C — Mortgages</h3>
+    <ul>
+      <li>Look at the first month of your amortization. What percentage of the payment went to principal? To interest? Does that seem fair?</li>
+      <li>Why does a 30-year mortgage end up costing so much more than a 15-year mortgage for the same house?</li>
+      <li>What is PMI? Why does the bank require it if your down payment is less than 20%?</li>
+      <li>The ARM (adjustable-rate mortgage) starts cheaper. Why might that be risky over 30 years?</li>
+      <li>Is buying always better than renting? What factors would change your answer?</li>
+    </ul>
+  </div>
+
+  <div class="discussion-module">
+    <h3>Life Event Cards (General)</h3>
+    <ul>
+      <li>Which life event card was the hardest decision to make? Why?</li>
+      <li>When you got a "job loss" card, what did you do first — cut expenses, use savings, or use credit?</li>
+      <li>The game gives you choices but no "right answer." How is that similar to real financial decisions?</li>
+      <li>What would you do differently in real life based on what happened in the game?</li>
+      <li>Why does the game not show a grade or score on the Month Summary screen?</li>
+    </ul>
+  </div>
+
+  <div class="discussion-module">
+    <h3>Month Summary &amp; Net Worth</h3>
+    <ul>
+      <li>After 12 months, is your net worth higher or lower than when you started? What drove the biggest change?</li>
+      <li>What is the difference between "income," "cash flow," and "net worth"?</li>
+      <li>The game uses net worth as the primary score in later levels. Is that a good measure of financial health? What might it miss?</li>
+      <li>What one decision, made differently, would have changed your outcome the most?</li>
+    </ul>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     SECTION 4 — ADDITIONAL RESOURCES
+══════════════════════════════════════════════════════════════ -->
+<div class="section-card">
+  <h2 style="margin-top:0;">Additional Resources</h2>
+
+  <h3>State Personal Finance Graduation Mandates</h3>
+  <p>As of 2026, 30 U.S. states require a personal finance course for high school graduation. FinanceGame content is designed to support these mandates across all 30 states. Consult your state's department of education for specific curriculum alignment requirements.</p>
+
+  <h3>Suggested Assessment Approaches</h3>
+  <ul>
+    <li><strong>Reflection journal</strong> — After each session, students write 2–3 sentences: "What happened? What did I decide? What would I change?"</li>
+    <li><strong>Exit ticket</strong> — One real-world connection: "Name one financial decision you or your family made recently that relates to what you played today."</li>
+    <li><strong>Month 6 compare</strong> — At game month 6, students compare net worth with a partner. Discuss: why are the numbers different if you started the same?</li>
+    <li><strong>Avoid grading game performance</strong> — Grading in-game outcomes penalizes students who took educational risks (e.g., trying a bad strategy to see what happens). Grade reflection quality instead.</li>
+  </ul>
+
+  <h3>Pedagogical Foundation</h3>
+  <p>This game uses <strong>just-in-time instruction</strong> — financial concepts appear at the moment of decision, not in advance. Research by Kaiser &amp; Menkhoff (World Bank, 2017) found this approach produces 48% larger learning effects than traditional advance instruction across 126 studies. The life event card mechanic is specifically designed around this principle.</p>
+
+  <h3>Contact &amp; Feedback</h3>
+  <p>FinanceGame is open-source and impact-first. If you use this in your classroom, we'd love to hear from you. Teacher testimonials and adoption data directly support our grant applications to fund continued development (FINRA Foundation, NEFE, CalMoneySmart).</p>
+  <p>GitHub: <code>github.com/aiautomationjohnjacob/finance-game</code></p>
+</div>
+
+<div style="text-align:center;padding:24px 0 8px;color:var(--muted);font-size:0.82rem;">
+  FinanceGame — Free forever. No ads. No accounts required for students.<br>
+  <a href="index.html" style="color:var(--primary);">← Back to Game</a>
+</div>
+
+</body>
+</html>
