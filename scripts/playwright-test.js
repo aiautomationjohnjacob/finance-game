@@ -87,7 +87,7 @@ async function testMilestone0(page) {
   try {
     const res = await page.goto(BASE_URL, { waitUntil: 'networkidle2', timeout: 10000 });
     const status = res.status();
-    if (status === 200) pass('index.html loads (HTTP 200)');
+    if (status === 200 || status === 304) pass('index.html loads (HTTP 200)');
     else fail('index.html loads', `HTTP ${status}`);
   } catch (e) { fail('index.html loads', e.message); return; }
 

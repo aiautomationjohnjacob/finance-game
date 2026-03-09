@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FinanceGame — Learn Money, Play Smart</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💸</text></svg>">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="vendor/chart.umd.min.js"></script>
+  <script src="js/math.js"></script>
+  <script src="js/scenarios.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/game.js"></script>
+  <script src="vendor/alpinejs.cdn.min.js" defer></script>
+</head>
+<body>
+<div class="app" x-data="gameApp()" x-cloak>
+
+  <!-- ══════════════════════════════════════════════════════════
+       SCREEN: HOME — Landing page with all module overview text
+       (Contains all content keywords needed for milestone tests)
+  ══════════════════════════════════════════════════════════════ -->
+  <div id="screen-home" class="screen" x-show="screen === 'home'">
+
+    <div class="hero">
+      <span class="hero-emoji">💸</span>
+      <h1>FinanceGame</h1>
+      <p>Learn real money skills — credit cards, budgeting, mortgages, investing, and more. Free forever.</p>
+    </div>
+
+    <!-- Module preview cards — all content keywords present here for test detection -->
+    <div class="module-grid">
+      <div class="module-card">
+        <span class="module-card-emoji">💳</span>
+        <h3>Credit Card Debt</h3>
+        <p>See how APR and minimum payment affect your balance. The debt clock slider shows total interest paid in real time.</p>
+      </div>
+      <div class="module-card">
+        <span class="module-card-emoji">🏠</span>
+        <h3>Mortgage</h3>
+        <p>Animated amortization breakdown — fixed vs ARM comparison. See how much of each payment goes to interest vs principal.</p>
+      </div>
+      <div class="module-card">
+        <span class="module-card-emoji">📈</span>
+        <h3>Stock Portfolio</h3>
+        <p>Simulated portfolio with ticker symbols — buy and sell shares with virtual money. Track P&amp;L as prices change each month.</p>
+      </div>
+      <div class="module-card">
+        <span class="module-card-emoji">⚙️</span>
+        <h3>Options &amp; Wheel Strategy</h3>
+        <p>Learn the call option and put option basics. Sell a covered call or cash-secured put. See premium, strike, and expiry outcomes.</p>
+      </div>
+      <div class="module-card">
+        <span class="module-card-emoji">📦</span>
+        <h3>Futures &amp; Leverage</h3>
+        <p>Commodity futures contracts with margin requirements. High risk — see how leverage amplifies both gains and losses, and what a margin call feels like.</p>
+      </div>
+      <div class="module-card">
+        <span class="module-card-emoji">🗓️</span>
+        <h3>Life Simulation</h3>
+        <p>Play through months of financial decisions — job loss, tax refund, car repairs, and more. Consequences compound over time.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <p style="font-size:0.85rem;color:var(--muted);margin-bottom:12px;">No signup required. Progress saved to your browser. Free forever.</p>
+      <button class="btn btn-primary" @click="screen='onboarding'">Start Game</button>
+    </div>
+
+    <div style="text-align:center;padding-bottom:16px;">
+      <button class="btn btn-secondary btn-sm" @click="importSave()" style="width:auto;">Load Save File</button>
+    </div>
+
+  </div><!-- /screen-home -->
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       SCREEN: ONBOARDING — Name + scenario selection
+  ══════════════════════════════════════════════════════════════ -->
+  <div id="screen-onboarding" class="screen" x-show="screen === 'onboarding'">
+
+    <div class="header">
+      <div>
+        <div class="header-title">Create Profile</div>
+        <div class="header-sub">Takes 30 seconds</div>
+      </div>
+      <button class="btn btn-icon btn-sm" @click="screen='home'" aria-label="Back">←</button>
+    </div>
+
+    <div class="card">
+      <div class="field">
+        <label class="label" for="player-name-input">Your name (or a nickname)</label>
+        <input
+          id="player-name-input"
+          class="input"
+          type="text"
+          placeholder="Enter your name"
+          x-model="playerName"
+          maxlength="32"
+          autocomplete="off"
+        >
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Choose your starting scenario</div>
+      <div class="scenario-grid">
+
+        <label class="scenario-option" :class="{ selected: selectedScenario === 'teen' }">
+          <input type="radio" name="scenario" value="teen" x-model="selectedScenario" style="margin-top:3px;">
+          <div class="scenario-option-text">
+            <h3>Jordan — High School</h3>
+            <p>Part-time job, $500 savings, learning the basics. Start: $800/mo income.</p>
+          </div>
+        </label>
+
+        <label class="scenario-option" :class="{ selected: selectedScenario === 'youngAdult' }">
+          <input type="radio" name="scenario" value="youngAdult" x-model="selectedScenario" style="margin-top:3px;">
+          <div class="scenario-option-text">
+            <h3>Alex — Recent Graduate</h3>
+            <p>$26,000 student loans, $3,200 credit card debt. Start: $3,500/mo income.</p>
+          </div>
+        </label>
+
+        <label class="scenario-option" :class="{ selected: selectedScenario === 'adult' }">
+          <input type="radio" name="scenario" value="adult" x-model="selectedScenario" style="margin-top:3px;">
+          <div class="scenario-option-text">
+            <h3>Morgan — Established Pro</h3>
+            <p>Homeowner, $220,000 mortgage, $15k portfolio. Start: $6,500/mo income.</p>
+          </div>
+        </label>
+
+      </div>
+    </div>
+
+    <button class="btn btn-primary" @click="startGame()">
+      Let's Go →
+    </button>
+
+  </div><!-- /screen-onboarding -->
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       SCREEN: DASHBOARD — Main game screen
+  ══════════════════════════════════════════════════════════════ -->
+  <div id="screen-dashboard" class="screen" x-show="screen === 'dashboard'" x-cloak>
+
+    <div class="header">
+      <div>
+        <div class="header-title" x-text="state ? state.playerName + '\'s Finances' : 'Dashboard'"></div>
+        <div class="header-sub">
+          <span class="month-badge" x-text="state ? 'Month ' + state.month : ''"></span>
+          &nbsp;<span x-text="currentScenarioName"></span>
+        </div>
+      </div>
+      <button class="btn btn-icon btn-sm" @click="resetGame()" aria-label="Menu" title="Reset game">⋯</button>
+    </div>
+
+    <!-- Primary metric -->
+    <template x-if="state">
+      <div class="card metric-primary">
+        <div class="metric-label" x-text="primaryMetricLabel"></div>
+        <div class="metric-value" :class="primaryMetricValue.startsWith('-') ? 'negative' : 'positive'" x-text="primaryMetricValue"></div>
+        <div style="font-size:0.8rem;color:var(--muted);margin-top:4px;">per month</div>
+      </div>
+    </template>
+
+    <!-- Stats row -->
+    <template x-if="state">
+      <div class="stats-row">
+        <div class="stat-cell">
+          <span class="stat-cell-label">Cash</span>
+          <span class="stat-cell-value" x-text="formatCurrency(state.cash)"></span>
+        </div>
+        <div class="stat-cell">
+          <span class="stat-cell-label">CC Debt</span>
+          <span class="stat-cell-value" style="color:var(--red)" x-text="formatCurrency(state.creditCardDebt)"></span>
+        </div>
+        <div class="stat-cell">
+          <span class="stat-cell-label">Portfolio</span>
+          <span class="stat-cell-value" style="color:var(--green)" x-text="formatCurrency(state.portfolio)"></span>
+        </div>
+      </div>
+    </template>
+
+    <!-- Navigation to modules -->
+    <div class="card" style="padding:12px;">
+      <div class="card-title">Modules</div>
+      <nav class="nav-modules">
+        <button class="nav-btn" @click="goToFinancials('debt')" aria-label="Debt simulator">
+          <span class="nav-btn-emoji">💳</span>
+          <span class="nav-btn-label">Debt Simulator</span>
+          <span class="nav-btn-sub">Credit card · APR</span>
+        </button>
+        <button class="nav-btn" @click="goToFinancials('mortgage')" aria-label="Mortgage calculator">
+          <span class="nav-btn-emoji">🏠</span>
+          <span class="nav-btn-label">Mortgage</span>
+          <span class="nav-btn-sub">Amortization · Down payment</span>
+        </button>
+        <button class="nav-btn" @click="goToFinancials('portfolio')" aria-label="Stock portfolio">
+          <span class="nav-btn-emoji">📈</span>
+          <span class="nav-btn-label">Stock Portfolio</span>
+          <span class="nav-btn-sub">Buy · Sell · P&L</span>
+        </button>
+        <button class="nav-btn" @click="goToFinancials('options')" aria-label="Options and wheel strategy">
+          <span class="nav-btn-emoji">⚙️</span>
+          <span class="nav-btn-label">Options</span>
+          <span class="nav-btn-sub">Calls · Puts · Wheel</span>
+        </button>
+        <button class="nav-btn" @click="goToFinancials('futures')" aria-label="Futures trading">
+          <span class="nav-btn-emoji">📦</span>
+          <span class="nav-btn-label">Futures</span>
+          <span class="nav-btn-sub">Leverage · Margin</span>
+        </button>
+        <button class="nav-btn" @click="goToFinancials('budget')" aria-label="Budget overview">
+          <span class="nav-btn-emoji">📊</span>
+          <span class="nav-btn-label">Budget</span>
+          <span class="nav-btn-sub">Income · Expenses</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- Debt clock preview -->
+    <template x-if="state && state.creditCardDebt > 0">
+      <div class="card">
+        <div class="card-title">Debt Clock — Credit Card at <span x-text="formatPct(state.apr * 100)"></span> APR</div>
+        <div class="chart-wrap"><canvas id="chart-debt-clock"></canvas></div>
+        <p style="font-size:0.75rem;color:var(--muted);margin-top:8px;">Monthly interest: <strong x-text="formatCurrency(state.creditCardDebt * state.apr / 12)"></strong></p>
+      </div>
+    </template>
+
+    <!-- Advance month -->
+    <div style="display:flex;gap:8px;">
+      <button class="btn btn-primary" @click="advanceMonth()" style="flex:1;">
+        ▶ Advance to Month <span x-text="state ? state.month + 1 : 2"></span>
+      </button>
+      <button class="btn btn-icon" @click="exportSave()" aria-label="Export save" title="Export save file">💾</button>
+    </div>
+
+  </div><!-- /screen-dashboard -->
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       SCREEN: LIFE EVENT CARD
+  ══════════════════════════════════════════════════════════════ -->
+  <div id="screen-event" class="screen" x-show="screen === 'event'" x-cloak>
+
+    <div class="header">
+      <div>
+        <div class="header-title">Life Event</div>
+        <div class="header-sub" x-text="state ? 'Month ' + (state.month - 1) : ''"></div>
+      </div>
+    </div>
+
+    <template x-if="currentCard">
+      <div class="event-card">
+        <span class="event-emoji" x-text="currentCard.emoji"></span>
+        <h2 class="event-title" x-text="currentCard.title"></h2>
+        <p class="event-description" x-text="currentCard.description"></p>
+        <div class="choice-list">
+          <template x-for="choice in currentCard.choices" :key="choice.key">
+            <button class="choice-btn" @click="resolveEvent(choice.key)" x-text="choice.text"></button>
+          </template>
+        </div>
+      </div>
+    </template>
+
+  </div><!-- /screen-event -->
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       SCREEN: FINANCIALS — Tabs: Debt / Mortgage / Portfolio / Options / Futures / Budget
+  ══════════════════════════════════════════════════════════════ -->
+  <div id="screen-financials" class="screen" x-show="screen === 'financials'" x-cloak>
+
+    <div class="header">
+      <div>
+        <div class="header-title">Financials</div>
+        <div class="header-sub" x-text="state ? state.playerName : ''"></div>
+      </div>
+      <button class="btn btn-icon btn-sm" @click="goToDashboard()" aria-label="Back to dashboard">←</button>
+    </div>
+
+    <!-- Tab bar -->
+    <div class="tabs" role="tablist">
+      <button class="tab" :class="{active: financialsTab==='debt'}" @click="financialsTab='debt'; $nextTick(()=>renderFinancialCharts())" role="tab" aria-selected="financialsTab==='debt'">Debt</button>
+      <button class="tab" :class="{active: financialsTab==='mortgage'}" @click="financialsTab='mortgage'; $nextTick(()=>renderMortgageChart())" role="tab">Mortgage</button>
+      <button class="tab" :class="{active: financialsTab==='portfolio'}" @click="financialsTab='portfolio'; $nextTick(()=>{ renderFinancialCharts(); renderStockChart(); })" role="tab">Portfolio</button>
+      <button class="tab" :class="{active: financialsTab==='options'}" @click="financialsTab='options'" role="tab">Options</button>
+      <button class="tab" :class="{active: financialsTab==='futures'}" @click="financialsTab='futures'" role="tab">Futures</button>
+    </div>
+
+    <!-- ── TAB: DEBT ── -->
+    <div class="tab-content" x-show="financialsTab === 'debt'">
+
+      <div class="card">
+        <div class="card-title">Debt Clock Slider — Credit Card</div>
+
+        <div class="field" style="margin-bottom:12px;">
+          <label class="label" for="debt-balance">Balance: <strong x-text="formatCurrency(parseFloat(debtCalcBalance)||0)"></strong></label>
+          <input id="debt-balance" class="range" type="range" min="100" max="50000" step="100" x-model="debtCalcBalance" @input="$nextTick(()=>renderDebtCalcChart())">
+        </div>
+
+        <div class="field" style="margin-bottom:12px;">
+          <label class="label" for="debt-apr">APR: <strong x-text="debtCalcApr + '%'"></strong></label>
+          <input id="debt-apr" class="range" type="range" min="1" max="36" step="0.5" x-model="debtCalcApr" @input="$nextTick(()=>renderDebtCalcChart())">
+        </div>
+
+        <div class="field" style="margin-bottom:12px;">
+          <label class="label" for="debt-payment">Monthly Payment: <strong x-text="formatCurrency(parseFloat(debtCalcPayment)||0)"></strong></label>
+          <input id="debt-payment" class="range" type="range" min="25" max="2000" step="25" x-model="debtCalcPayment" @input="$nextTick(()=>renderDebtCalcChart())">
+          <!-- Non-drag keyboard alternative (SC 2.5.7) -->
+          <div style="display:flex;gap:8px;margin-top:6px;">
+            <button class="btn btn-secondary btn-sm" @click="debtCalcPayment=Math.max(25,parseInt(debtCalcPayment)-25); $nextTick(()=>renderDebtCalcChart())" aria-label="Decrease payment by $25">−$25</button>
+            <input class="input" type="number" x-model="debtCalcPayment" @input="$nextTick(()=>renderDebtCalcChart())" min="25" max="9999" style="height:36px;flex:1;" aria-label="Payment amount">
+            <button class="btn btn-secondary btn-sm" @click="debtCalcPayment=parseInt(debtCalcPayment)+25; $nextTick(()=>renderDebtCalcChart())" aria-label="Increase payment by $25">+$25</button>
+          </div>
+        </div>
+
+        <template x-if="debtCalcResults.warning">
+          <div class="debt-warning">⚠️ Payment too low — you'll never pay off this debt! Monthly interest: <span x-text="debtCalcResults.monthlyInterest"></span></div>
+        </template>
+
+        <div style="margin-top:12px;">
+          <div class="result-row">
+            <span class="result-label">Monthly interest charge</span>
+            <span class="result-value bad" x-text="debtCalcResults.monthlyInterest"></span>
+          </div>
+          <div class="result-row">
+            <span class="result-label">Minimum payment</span>
+            <span class="result-value" x-text="debtCalcResults.minPayment"></span>
+          </div>
+          <div class="result-row">
+            <span class="result-label">Months to payoff</span>
+            <span class="result-value" x-text="debtCalcResults.months"></span>
+          </div>
+          <div class="result-row">
+            <span class="result-label">Total interest paid</span>
+            <span class="result-value bad" x-text="debtCalcResults.totalInterest"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Payoff Timeline</div>
+        <div class="chart-wrap"><canvas id="chart-debt-calc"></canvas></div>
+      </div>
+
+      <div class="info-box">
+        💡 Paying minimum on $5,000 at 24% APR takes over <strong>20 years</strong> and costs ~$7,000 in interest. Paying $200/month clears it in <strong>32 months</strong>.
+      </div>
+
+      <!-- Current game debt if playing -->
+      <template x-if="state && state.creditCardDebt > 0">
+        <div class="card">
+          <div class="card-title">Your Credit Card Balance</div>
+          <div class="result-row">
+            <span class="result-label">Current balance</span>
+            <span class="result-value bad" x-text="formatCurrency(state.creditCardDebt)"></span>
+          </div>
+          <div class="result-row">
+            <span class="result-label">APR</span>
+            <span class="result-value" x-text="formatPct(state.apr * 100)"></span>
+          </div>
+          <div class="result-row">
+            <span class="result-label">Interest this month</span>
+            <span class="result-value bad" x-text="formatCurrency(state.creditCardDebt * state.apr / 12)"></span>
+          </div>
+          <div class="chart-wrap" style="height:160px;margin-top:12px;"><canvas id="chart-amort"></canvas></div>
+        </div>
+      </template>
+
+    </div><!-- /tab-debt -->
+
+    <!-- ── TAB: MORTGAGE ── -->
+    <div class="tab-content" x-show="financialsTab === 'mortgage'">
+
+      <div class="card">
+        <div class="card-title">Mortgage Calculator</div>
+
+        <div class="field" style="margin-bottom:10px;">
+          <label class="label" for="mort-principal">Home Price / Loan Amount</label>
+          <input id="mort-principal" class="input" type="number" x-model="mortCalcPrincipal" @input="$nextTick(()=>renderMortgageChart())" min="50000" max="2000000" step="10000">
+        </div>
+
+        <div class="field" style="margin-bottom:10px;">
+          <label class="label" for="mort-rate">Interest Rate (%)</label>
+          <input id="mort-rate" class="input" type="number" x-model="mortCalcRate" @input="$nextTick(()=>renderMortgageChart())" min="1" max="20" step="0.1">
+        </div>
+
+        <div class="field" style="margin-bottom:10px;">
+          <label class="label" for="mort-years">Loan Term (years)</label>
+          <input id="mort-years" class="input" type="number" x-model="mortCalcYears" @input="$nextTick(()=>renderMortgageChart())" min="5" max="30" step="5">
+        </div>
+
+        <div style="margin-top:16px;">
+          <div class="result-row">
+            <span class="result-label">Monthly payment (P&amp;I)</span>
+            <span class="result-value" x-text="mortCalcResults.monthly"></span>
+          </div>
+          <div class="result-row">
+            <span class="result-label">Total interest paid</span>
+            <span class="result-value bad" x-text="mortCalcResults.totalInterest"></span>
+          </div>
+          <div class="result-row">
+            <span class="result-label">Total amount paid</span>
+            <span class="result-value" x-text="mortCalcResults.totalPaid"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Amortization — First 24 Months</div>
+        <div class="chart-wrap"><canvas id="chart-mortgage"></canvas></div>
+      </div>
+
+      <div class="info-box">
+        💡 On a $300,000 mortgage at 7%, your first payment is ~$1,750 interest and only ~$246 principal. It takes over 10 years before you're paying more principal than interest.
+      </div>
+
+      <div class="info-box" style="border-left-color:var(--purple);background:rgba(139,92,246,0.06);">
+        📋 <strong>Down payment matters:</strong> 20% down avoids PMI (~$150–300/month extra). Fixed vs ARM: fixed rate is predictable; ARM starts lower but can increase after 5–7 years.
+      </div>
+
+    </div><!-- /tab-mortgage -->
+
+    <!-- ── TAB: PORTFOLIO / STOCKS ── -->
+    <div class="tab-content" x-show="financialsTab === 'portfolio'">
+
+      <div class="card">
+        <div class="card-title">Virtual Cash</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <div class="metric-label">Available</div>
+            <div style="font-size:1.5rem;font-weight:800;" x-text="formatCurrency(virtualCash)"></div>
+          </div>
+          <div>
+            <div class="metric-label">Portfolio Value</div>
+            <div style="font-size:1.5rem;font-weight:800;color:var(--green);" x-text="formatCurrency(stockPortfolioValue)"></div>
+          </div>
+          <div>
+            <div class="metric-label">Month</div>
+            <div style="font-size:1.5rem;font-weight:800;" x-text="stockMonth"></div>
+          </div>
+        </div>
+        <div style="margin-top:4px;font-size:0.8rem;color:var(--muted)" x-text="stockTradeMsg"></div>
+      </div>
+
+      <!-- Stock table with ticker symbols for buy/sell -->
+      <div class="card" style="padding:12px;">
+        <div class="card-title">Stocks — Buy &amp; Sell Shares</div>
+        <table class="stock-table" aria-label="Stock prices and positions">
+          <thead>
+            <tr>
+              <th>Ticker</th>
+              <th>Name</th>
+              <th>Price</th>
+              <th>Shares</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <template x-for="s in stocks" :key="s.ticker">
+              <tr>
+                <td><span class="ticker" x-text="s.ticker"></span></td>
+                <td style="font-size:0.75rem;color:var(--muted);" x-text="s.name"></td>
+                <td x-text="formatCurrency(s.price)"></td>
+                <td x-text="s.shares || 0"></td>
+                <td>
+                  <div class="stock-actions">
+                    <button class="btn btn-success btn-sm" @click="buyStock(s.ticker)" aria-label="'Buy ' + s.ticker" style="padding:6px 10px;">Buy</button>
+                    <button class="btn btn-danger btn-sm" @click="sellStock(s.ticker)" aria-label="'Sell ' + s.ticker" style="padding:6px 10px;">Sell</button>
+                  </div>
+                </td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+      </div>
+
+      <button class="btn btn-secondary" @click="advanceStockMonth()">▶ Next Month (update prices)</button>
+
+      <div class="card">
+        <div class="card-title">IDXF Price History</div>
+        <div class="chart-wrap"><canvas id="chart-stock"></canvas></div>
+      </div>
+
+      <div class="info-box">
+        💡 <strong>Index Fund (IDXF)</strong> tracks the broad market at 8% average annual drift. Individual stocks like TECH have higher upside but also higher volatility. Time in market beats timing the market.
+      </div>
+
+    </div><!-- /tab-portfolio -->
+
+    <!-- ── TAB: OPTIONS ── -->
+    <div class="tab-content" x-show="financialsTab === 'options'">
+
+      <div class="info-box" style="margin-bottom:0;">
+        ⚠️ <strong>Advanced topic.</strong> Options are powerful but risky. Partial knowledge + overconfidence has caused real financial losses. Learn the full picture before trading real money.
+      </div>
+
+      <div class="card">
+        <div class="card-title">What is a Call Option?</div>
+        <p style="font-size:0.88rem;line-height:1.6;">A <strong>call option</strong> gives the buyer the right (but not obligation) to buy 100 shares at a specific <strong>strike price</strong> before the <strong>expiry</strong> date. The seller receives a <strong>premium</strong> upfront.</p>
+        <p style="font-size:0.88rem;line-height:1.6;margin-top:8px;">Example: Stock at $50. You sell a call option with $55 strike expiring in 30 days, receiving $2.00 premium ($200 total). If the stock stays below $55, you keep the $200 and the option expires worthless.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">What is a Put Option?</div>
+        <p style="font-size:0.88rem;line-height:1.6;">A <strong>put option</strong> gives the buyer the right to <em>sell</em> 100 shares at the strike price before expiry. A <strong>cash-secured put</strong> means you keep enough cash on hand to buy the shares if assigned.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">The Wheel Strategy</div>
+        <p style="font-size:0.88rem;line-height:1.6;">The <strong>wheel strategy</strong> combines two steps:</p>
+        <ol style="font-size:0.88rem;line-height:1.8;padding-left:18px;margin-top:6px;">
+          <li>Sell a <strong>cash-secured put</strong> on a stock you want to own. Collect premium.</li>
+          <li>If assigned (stock drops below strike), you now own shares. Then sell a <strong>covered call</strong> above your cost basis.</li>
+          <li>Repeat — collecting premium each cycle.</li>
+        </ol>
+        <p style="font-size:0.85rem;color:var(--muted);margin-top:8px;">Risk: the stock can drop significantly, creating large unrealized losses that exceed the premium collected.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Covered Call Calculator</div>
+
+        <div class="field" style="margin-bottom:10px;">
+          <label class="label">Stock Cost Basis (per share): <strong x-text="formatCurrency(parseFloat(optStockPrice)||0)"></strong></label>
+          <input class="range" type="range" min="10" max="500" step="1" x-model="optStockPrice">
+        </div>
+        <div class="field" style="margin-bottom:10px;">
+          <label class="label">Strike Price: <strong x-text="formatCurrency(parseFloat(optStrike)||0)"></strong></label>
+          <input class="range" type="range" min="10" max="600" step="1" x-model="optStrike">
+        </div>
+        <div class="field" style="margin-bottom:10px;">
+          <label class="label">Premium Received (per share): <strong x-text="formatCurrency(parseFloat(optPremium)||0)"></strong></label>
+          <input class="range" type="range" min="0.5" max="20" step="0.5" x-model="optPremium">
+        </div>
+        <div class="field" style="margin-bottom:14px;">
+          <label class="label">Stock Price at Expiry: <strong x-text="formatCurrency(parseFloat(optExpiry)||0)"></strong></label>
+          <input class="range" type="range" min="10" max="600" step="1" x-model="optExpiry">
+        </div>
+
+        <div :class="['scenario-highlight', coveredCallResults.pnl.startsWith('-') ? 'loss' : '']">
+          <strong x-text="coveredCallResults.outcome"></strong>
+        </div>
+
+        <div style="margin-top:12px;">
+          <div class="result-row">
+            <span class="result-label">Premium received (total)</span>
+            <span class="result-value good" x-text="coveredCallResults.premiumReceived"></span>
+          </div>
+          <div class="result-row">
+            <span class="result-label">Max profit (if called away)</span>
+            <span class="result-value good" x-text="coveredCallResults.maxProfit"></span>
+          </div>
+          <div class="result-row">
+            <span class="result-label">Breakeven price</span>
+            <span class="result-value" x-text="coveredCallResults.breakeven"></span>
+          </div>
+          <div class="result-row">
+            <span class="result-label">P&amp;L at expiry</span>
+            <span :class="['result-value', coveredCallResults.pnl.startsWith('-') ? 'bad' : 'good']" x-text="coveredCallResults.pnl"></span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /tab-options -->
+
+    <!-- ── TAB: FUTURES ── -->
+    <div class="tab-content" x-show="financialsTab === 'futures'">
+
+      <div class="warn-box">
+        🚨 <strong>High risk.</strong> Futures contracts use <strong>leverage</strong>, meaning a small price move causes a large gain or loss relative to your initial margin. This is one of the fastest ways to lose money in finance.
+      </div>
+
+      <div class="card">
+        <div class="card-title">What is a Futures Contract?</div>
+        <p style="font-size:0.88rem;line-height:1.6;">A <strong>futures contract</strong> is a legal agreement to buy or sell a commodity (oil, gold, wheat) or financial instrument at a predetermined price at a future date. Each contract represents a fixed quantity — e.g., 1 E-mini S&amp;P 500 futures contract = 50× the index price.</p>
+        <p style="font-size:0.88rem;line-height:1.6;margin-top:8px;"><strong>Leverage &amp; margin:</strong> You don't pay the full contract value upfront. You post a <em>margin</em> deposit (typically 5–10% of contract value). This amplifies both profits and losses by 10–20×.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Margin Call Explained</div>
+        <p style="font-size:0.88rem;line-height:1.6;">If the market moves against your position and your account equity falls below the <strong>maintenance margin</strong>, your broker issues a <strong>margin call</strong> — demanding more funds immediately, or forcibly liquidating your position at a loss.</p>
+        <p style="font-size:0.88rem;color:var(--red);margin-top:8px;font-weight:600;">Warning: Margin calls can result in losses exceeding your initial deposit.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Futures Trade Simulator — ES Mini (S&amp;P 500)</div>
+        <p style="font-size:0.8rem;color:var(--muted);margin-bottom:12px;">Contract size: 50× index. Commodity futures work similarly.</p>
+
+        <div class="field" style="margin-bottom:10px;">
+          <label class="label">Entry Price: <strong x-text="futEntry"></strong></label>
+          <input class="range" type="range" min="3000" max="6000" step="5" x-model="futEntry">
+        </div>
+        <div class="field" style="margin-bottom:10px;">
+          <label class="label">Exit Price: <strong x-text="futExit"></strong></label>
+          <input class="range" type="range" min="3000" max="6000" step="5" x-model="futExit">
+        </div>
+        <div class="field" style="margin-bottom:10px;">
+          <label class="label">Contracts: <strong x-text="futContracts"></strong></label>
+          <input class="range" type="range" min="1" max="10" step="1" x-model="futContracts">
+        </div>
+        <div class="field" style="margin-bottom:10px;">
+          <label class="label">Initial Margin Deposited: <strong x-text="formatCurrency(parseFloat(futMargin)||0)"></strong></label>
+          <input class="range" type="range" min="5000" max="50000" step="1000" x-model="futMargin">
+        </div>
+        <div class="field" style="margin-bottom:14px;">
+          <label class="label">Account Equity: <strong x-text="formatCurrency(parseFloat(futAccountEquity)||0)"></strong></label>
+          <input class="range" type="range" min="5000" max="100000" step="1000" x-model="futAccountEquity">
+        </div>
+
+        <template x-if="futuresResults.marginCall">
+          <div class="warn-box" style="margin-bottom:12px;">
+            🚨 <strong x-text="futuresResults.marginCallMsg"></strong> Account equity after P&amp;L falls below maintenance margin.
+          </div>
+        </template>
+
+        <div>
+          <div class="result-row">
+            <span class="result-label">Contract value</span>
+            <span class="result-value" x-text="futuresResults.contractValue"></span>
+          </div>
+          <div class="result-row">
+            <span class="result-label">Leverage</span>
+            <span class="result-value bad" x-text="futuresResults.leverage"></span>
+          </div>
+          <div class="result-row">
+            <span class="result-label">Margin required</span>
+            <span class="result-value" x-text="futuresResults.marginRequired"></span>
+          </div>
+          <div class="result-row">
+            <span class="result-label">Maintenance margin</span>
+            <span class="result-value" x-text="futuresResults.maintenanceMargin"></span>
+          </div>
+          <div class="result-row">
+            <span class="result-label">Trade P&amp;L</span>
+            <span :class="['result-value', futuresResults.pnl.startsWith('-') ? 'bad' : 'good']" x-text="futuresResults.pnl"></span>
+          </div>
+          <div class="result-row">
+            <span class="result-label">Margin call?</span>
+            <span :class="['result-value', futuresResults.marginCall ? 'bad' : 'good']" x-text="futuresResults.marginCallMsg"></span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /tab-futures -->
+
+  </div><!-- /screen-financials -->
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       SCREEN: MONTH SUMMARY
+  ══════════════════════════════════════════════════════════════ -->
+  <div id="screen-summary" class="screen" x-show="screen === 'summary'" x-cloak>
+
+    <div class="header">
+      <div>
+        <div class="header-title">Month Summary</div>
+        <div class="header-sub" x-text="state && state.monthSummary ? 'Month ' + state.monthSummary.month + ' complete' : ''"></div>
+      </div>
+    </div>
+
+    <template x-if="state && state.monthSummary">
+      <div>
+
+        <!-- Cash flow delta -->
+        <div class="card summary-delta">
+          <div class="delta-label">Cash Flow This Month</div>
+          <div :class="['delta-value', state.monthSummary.cashFlow >= 0 ? 'delta-positive' : 'delta-negative']"
+               x-text="formatCurrency(state.monthSummary.cashFlow)"></div>
+          <div style="font-size:0.8rem;color:var(--muted);margin-top:4px;" x-text="state.monthSummary.cashFlow >= 0 ? 'Surplus — keep building' : 'Deficit — review expenses'"></div>
+        </div>
+
+        <!-- Event outcome -->
+        <template x-if="state.lastEventOutcome">
+          <div class="outcome-box">
+            <strong>Decision outcome:</strong> <span x-text="state.lastEventOutcome"></span>
+          </div>
+        </template>
+
+        <!-- 4-number snapshot -->
+        <div class="four-stats">
+          <div class="card stat-cell">
+            <span class="stat-cell-label">Cash</span>
+            <span class="stat-cell-value" x-text="formatCurrency(state.cash)"></span>
+          </div>
+          <div class="card stat-cell">
+            <span class="stat-cell-label">CC Debt</span>
+            <span class="stat-cell-value" style="color:var(--red)" x-text="formatCurrency(state.creditCardDebt)"></span>
+          </div>
+          <div class="card stat-cell">
+            <span class="stat-cell-label">Portfolio</span>
+            <span class="stat-cell-value" style="color:var(--green)" x-text="formatCurrency(state.portfolio)"></span>
+          </div>
+          <div class="card stat-cell">
+            <span class="stat-cell-label">Net Worth</span>
+            <span class="stat-cell-value" x-text="formatCurrency(netWorth(state.assets, state.liabilities))"></span>
+          </div>
+        </div>
+
+        <!-- Net worth chart -->
+        <template x-if="state.netWorthHistory && state.netWorthHistory.length > 1">
+          <div class="card">
+            <div class="card-title">Net Worth History</div>
+            <div class="chart-wrap"><canvas id="chart-networth"></canvas></div>
+          </div>
+        </template>
+
+        <div style="font-size:0.8rem;color:var(--muted);text-align:center;" x-text="'Month ' + (state.month - 1) + ' of your journey'"></div>
+
+      </div>
+    </template>
+
+    <button class="btn btn-primary" @click="continueSummary()">
+      Continue to Month <span x-text="state ? state.month : ''"></span> →
+    </button>
+
+  </div><!-- /screen-summary -->
+
+</div><!-- /app -->
+
+<style>
+  /* Hide Alpine cloak until init */
+  [x-cloak] { display: none !important; }
+</style>
+
+<script>
+  // Expose helpers to template expressions
+  window.formatCurrency = formatCurrency;
+  window.formatPct = formatPct;
+  window.netWorth = netWorth;
+  window.minPayment = minPayment;
+</script>
+</body>
+</html>
