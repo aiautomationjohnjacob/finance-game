@@ -1,0 +1,14 @@
+{
+  "active": true,
+  "iteration": 1,
+  "minIterations": 1,
+  "maxIterations": 20,
+  "completionPromise": "COMPLETE",
+  "abortPromise": "BLOCKED",
+  "tasksMode": false,
+  "taskPromise": "READY_FOR_NEXT_TASK",
+  "prompt": "# FinanceGame Loop Orchestrator\n\nYou are running as an autonomous orchestrator for the FinanceGame project.\nProject directory: /home/ai/Projects/finance-game/\n\n## START HERE EVERY ITERATION\n\nRead these files immediately before doing anything else:\n1. `.claude/STATE.md` — current state and next action\n2. `.claude/rules/loop.md` — full orchestration rules and decision authority\n3. `.claude/rules/decisions.md` — locked decisions (if BUILDING phase)\n4. `.claude/rules/testplan.md` — milestone definitions and test criteria\n\nThen follow the Phase Decision Tree in loop.md exactly.\n\n## Quick Reference\n\n- **Run tests:** `bash scripts/test.sh` (auto-detects milestone) — LD_LIBRARY_PATH for Chrome is set automatically inside test.sh\n- **Run tests for specific milestone:** `bash scripts/test.sh 3`\n- **View test results:** read `scripts/test-results/latest.json`\n- **View screenshots:** files in `scripts/screenshots/` — use the Read tool to view PNG images visually\n- **Commit:** `cd /home/ai/Projects/finance-game && git add -A && git commit -m \"...\"`\n- **Push:** `git push origin main` — remote is already authenticated via credential helper\n\n## Git Remote Auth Note\nThe remote is set to use the gh token. If `git push` fails with auth error, run:\n`git remote set-url origin \"https://$(gh auth token)@github.com/aiautomationjohnjacob/finance-game.git\"`\n\n## Architecture Constraint (NEVER FORGET)\n\nThe game is **plain HTML/CSS/JavaScript**.\n- One or a few `.html` files + `.css` + `.js` files\n- Open `index.html` in a browser → it works\n- No npm, no build step, no framework\n- Playwright is used only for TESTING, not part of the app\n\n## What Good Looks Like\n\nA complete game loop where a player:\n1. Opens the app → sees a clean landing page\n2. Creates a character (name + starting scenario)\n3. Views their financial dashboard (cash, debt, investments)\n4. Navigates to Credit Card module → sees debt simulator\n5. Navigates to Mortgage module → runs amortization calc\n6. Navigates to Investing module → buys/sells simulated stocks\n7. Navigates to Options module → learns the wheel strategy\n8. Navigates to Futures module → sees leverage demo\n9. Receives life event scenario cards along the way\n10. Reaches a summary after 24+ months with net worth change\n\n## When You're Done With an Iteration\n\nAlways end by updating `.claude/STATE.md` with what you did and what comes next.\n",
+  "startedAt": "2026-03-09T05:49:39.153Z",
+  "model": "",
+  "agent": "claude-code"
+}
