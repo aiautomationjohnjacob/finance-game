@@ -42,6 +42,8 @@ async function detectMilestone(page) {
   try {
     await page.goto(BASE_URL, { waitUntil: 'networkidle2', timeout: 10000 });
     const content = await page.content();
+    if (/start over|net worth change|decisions made/i.test(content)) return 10;
+    if (/life event|event-card/i.test(content)) return 9;
     if (/futures/i.test(content)) return 8;
     if (/options|wheel strategy/i.test(content)) return 7;
     if (/portfolio|stock simulator/i.test(content)) return 6;
