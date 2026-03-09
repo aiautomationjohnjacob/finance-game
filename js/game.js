@@ -58,13 +58,16 @@ const SCENARIOS = {
 // ─── Game State ───────────────────────────────────────────────────────────────
 function createInitialState(scenarioId, playerName) {
   const base = SCENARIOS[scenarioId];
+  const initialAssets = base.cash + base.emergencyFund + base.portfolio + (base.mortgage > 0 ? base.mortgage + 60000 : 0);
+  const initialLiabilities = base.creditCardDebt + base.studentLoanDebt + base.mortgage;
   return {
     playerName,
     scenarioId,
     month: 1,
     ...JSON.parse(JSON.stringify(base)),
-    assets: base.cash + base.emergencyFund + base.portfolio + (base.mortgage > 0 ? base.mortgage + 60000 : 0),
-    liabilities: base.creditCardDebt + base.studentLoanDebt + base.mortgage,
+    assets: initialAssets,
+    liabilities: initialLiabilities,
+    initialNetWorth: initialAssets - initialLiabilities,
     extraDebtPayment: 0,
     aprOverride: null,
     aprOverrideTurns: 0,

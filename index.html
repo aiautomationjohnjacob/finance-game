@@ -707,6 +707,20 @@
           </div>
         </template>
 
+        <!-- Decisions made + net worth change -->
+        <div class="stats-row">
+          <div class="stat-cell">
+            <span class="stat-cell-label">Decisions Made</span>
+            <span class="stat-cell-value" x-text="state.decisionLog ? state.decisionLog.length : 0"></span>
+          </div>
+          <div class="stat-cell">
+            <span class="stat-cell-label">Net Worth Change</span>
+            <span class="stat-cell-value"
+              :class="(netWorth(state.assets, state.liabilities) - (state.initialNetWorth || 0)) >= 0 ? 'positive' : 'negative'"
+              x-text="formatCurrency(netWorth(state.assets, state.liabilities) - (state.initialNetWorth || 0))"></span>
+          </div>
+        </div>
+
         <div style="font-size:0.8rem;color:var(--muted);text-align:center;" x-text="'Month ' + (state.month - 1) + ' of your journey'"></div>
 
       </div>
@@ -714,6 +728,9 @@
 
     <button class="btn btn-primary" @click="continueSummary()">
       Continue to Month <span x-text="state ? state.month : ''"></span> →
+    </button>
+    <button class="btn btn-secondary" @click="resetGame()" style="margin-top:8px;width:100%;">
+      Start Over
     </button>
 
   </div><!-- /screen-summary -->
