@@ -470,3 +470,10 @@ body {
 
 /* SC 2.4.13: focus indicator ≥ 3:1 contrast */
 /* SC 2.5.8: all interactive elements ≥ 44px touch target (enforced above) */
+
+/* SC 2.4.11: focused elements must not be entirely obscured by sticky header.
+   scroll-padding-top reserves space equal to sticky header height (~57px) so
+   the browser scrolls far enough that focused elements remain visible. */
+html {
+  scroll-padding-top: 64px;
+}

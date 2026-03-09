@@ -283,15 +283,15 @@
 
     <!-- Tab bar -->
     <div class="tabs" role="tablist">
-      <button class="tab" :class="{active: financialsTab==='debt'}" @click="financialsTab='debt'; $nextTick(()=>renderFinancialCharts())" role="tab" aria-selected="financialsTab==='debt'">Debt</button>
-      <button class="tab" :class="{active: financialsTab==='mortgage'}" @click="financialsTab='mortgage'; $nextTick(()=>renderMortgageChart())" role="tab">Mortgage</button>
-      <button class="tab" :class="{active: financialsTab==='portfolio'}" @click="financialsTab='portfolio'; $nextTick(()=>{ renderFinancialCharts(); renderStockChart(); })" role="tab">Portfolio</button>
-      <button class="tab" :class="{active: financialsTab==='options'}" @click="financialsTab='options'" role="tab">Options</button>
-      <button class="tab" :class="{active: financialsTab==='futures'}" @click="financialsTab='futures'" role="tab">Futures</button>
+      <button id="tab-debt" class="tab" :class="{active: financialsTab==='debt'}" @click="financialsTab='debt'; $nextTick(()=>renderFinancialCharts())" role="tab" :aria-selected="financialsTab==='debt'" aria-controls="panel-debt">Debt</button>
+      <button id="tab-mortgage" class="tab" :class="{active: financialsTab==='mortgage'}" @click="financialsTab='mortgage'; $nextTick(()=>renderMortgageChart())" role="tab" :aria-selected="financialsTab==='mortgage'" aria-controls="panel-mortgage">Mortgage</button>
+      <button id="tab-portfolio" class="tab" :class="{active: financialsTab==='portfolio'}" @click="financialsTab='portfolio'; $nextTick(()=>{ renderFinancialCharts(); renderStockChart(); })" role="tab" :aria-selected="financialsTab==='portfolio'" aria-controls="panel-portfolio">Portfolio</button>
+      <button id="tab-options" class="tab" :class="{active: financialsTab==='options'}" @click="financialsTab='options'" role="tab" :aria-selected="financialsTab==='options'" aria-controls="panel-options">Options</button>
+      <button id="tab-futures" class="tab" :class="{active: financialsTab==='futures'}" @click="financialsTab='futures'" role="tab" :aria-selected="financialsTab==='futures'" aria-controls="panel-futures">Futures</button>
     </div>
 
     <!-- ── TAB: DEBT ── -->
-    <div class="tab-content" x-show="financialsTab === 'debt'">
+    <div id="panel-debt" class="tab-content" role="tabpanel" aria-labelledby="tab-debt" x-show="financialsTab === 'debt'">
 
       <div class="card">
         <div class="card-title">Debt Clock Slider — Credit Card</div>
@@ -373,7 +373,7 @@
     </div><!-- /tab-debt -->
 
     <!-- ── TAB: MORTGAGE ── -->
-    <div class="tab-content" x-show="financialsTab === 'mortgage'">
+    <div id="panel-mortgage" class="tab-content" role="tabpanel" aria-labelledby="tab-mortgage" x-show="financialsTab === 'mortgage'">
 
       <div class="card">
         <div class="card-title">Mortgage Calculator</div>
@@ -425,7 +425,7 @@
     </div><!-- /tab-mortgage -->
 
     <!-- ── TAB: PORTFOLIO / STOCKS ── -->
-    <div class="tab-content" x-show="financialsTab === 'portfolio'">
+    <div id="panel-portfolio" class="tab-content" role="tabpanel" aria-labelledby="tab-portfolio" x-show="financialsTab === 'portfolio'">
 
       <div class="card">
         <div class="card-title">Virtual Cash</div>
@@ -492,7 +492,7 @@
     </div><!-- /tab-portfolio -->
 
     <!-- ── TAB: OPTIONS ── -->
-    <div class="tab-content" x-show="financialsTab === 'options'">
+    <div id="panel-options" class="tab-content" role="tabpanel" aria-labelledby="tab-options" x-show="financialsTab === 'options'">
 
       <div class="info-box" style="margin-bottom:0;">
         ⚠️ <strong>Advanced topic.</strong> Options are powerful but risky. Partial knowledge + overconfidence has caused real financial losses. Learn the full picture before trading real money.
@@ -524,20 +524,20 @@
         <div class="card-title">Covered Call Calculator</div>
 
         <div class="field" style="margin-bottom:10px;">
-          <label class="label">Stock Cost Basis (per share): <strong x-text="formatCurrency(parseFloat(optStockPrice)||0)"></strong></label>
-          <input class="range" type="range" min="10" max="500" step="1" x-model="optStockPrice">
+          <label class="label" for="opt-stock-price">Stock Cost Basis (per share): <strong x-text="formatCurrency(parseFloat(optStockPrice)||0)"></strong></label>
+          <input id="opt-stock-price" class="range" type="range" min="10" max="500" step="1" x-model="optStockPrice">
         </div>
         <div class="field" style="margin-bottom:10px;">
-          <label class="label">Strike Price: <strong x-text="formatCurrency(parseFloat(optStrike)||0)"></strong></label>
-          <input class="range" type="range" min="10" max="600" step="1" x-model="optStrike">
+          <label class="label" for="opt-strike">Strike Price: <strong x-text="formatCurrency(parseFloat(optStrike)||0)"></strong></label>
+          <input id="opt-strike" class="range" type="range" min="10" max="600" step="1" x-model="optStrike">
         </div>
         <div class="field" style="margin-bottom:10px;">
-          <label class="label">Premium Received (per share): <strong x-text="formatCurrency(parseFloat(optPremium)||0)"></strong></label>
-          <input class="range" type="range" min="0.5" max="20" step="0.5" x-model="optPremium">
+          <label class="label" for="opt-premium">Premium Received (per share): <strong x-text="formatCurrency(parseFloat(optPremium)||0)"></strong></label>
+          <input id="opt-premium" class="range" type="range" min="0.5" max="20" step="0.5" x-model="optPremium">
         </div>
         <div class="field" style="margin-bottom:14px;">
-          <label class="label">Stock Price at Expiry: <strong x-text="formatCurrency(parseFloat(optExpiry)||0)"></strong></label>
-          <input class="range" type="range" min="10" max="600" step="1" x-model="optExpiry">
+          <label class="label" for="opt-expiry">Stock Price at Expiry: <strong x-text="formatCurrency(parseFloat(optExpiry)||0)"></strong></label>
+          <input id="opt-expiry" class="range" type="range" min="10" max="600" step="1" x-model="optExpiry">
         </div>
 
         <div :class="['scenario-highlight', coveredCallResults.pnl.startsWith('-') ? 'loss' : '']">
@@ -567,7 +567,7 @@
     </div><!-- /tab-options -->
 
     <!-- ── TAB: FUTURES ── -->
-    <div class="tab-content" x-show="financialsTab === 'futures'">
+    <div id="panel-futures" class="tab-content" role="tabpanel" aria-labelledby="tab-futures" x-show="financialsTab === 'futures'">
 
       <div class="warn-box">
         🚨 <strong>High risk.</strong> Futures contracts use <strong>leverage</strong>, meaning a small price move causes a large gain or loss relative to your initial margin. This is one of the fastest ways to lose money in finance.
@@ -590,24 +590,24 @@
         <p style="font-size:0.8rem;color:var(--muted);margin-bottom:12px;">Contract size: 50× index. Commodity futures work similarly.</p>
 
         <div class="field" style="margin-bottom:10px;">
-          <label class="label">Entry Price: <strong x-text="futEntry"></strong></label>
-          <input class="range" type="range" min="3000" max="6000" step="5" x-model="futEntry">
+          <label class="label" for="fut-entry">Entry Price: <strong x-text="futEntry"></strong></label>
+          <input id="fut-entry" class="range" type="range" min="3000" max="6000" step="5" x-model="futEntry">
         </div>
         <div class="field" style="margin-bottom:10px;">
-          <label class="label">Exit Price: <strong x-text="futExit"></strong></label>
-          <input class="range" type="range" min="3000" max="6000" step="5" x-model="futExit">
+          <label class="label" for="fut-exit">Exit Price: <strong x-text="futExit"></strong></label>
+          <input id="fut-exit" class="range" type="range" min="3000" max="6000" step="5" x-model="futExit">
         </div>
         <div class="field" style="margin-bottom:10px;">
-          <label class="label">Contracts: <strong x-text="futContracts"></strong></label>
-          <input class="range" type="range" min="1" max="10" step="1" x-model="futContracts">
+          <label class="label" for="fut-contracts">Contracts: <strong x-text="futContracts"></strong></label>
+          <input id="fut-contracts" class="range" type="range" min="1" max="10" step="1" x-model="futContracts">
         </div>
         <div class="field" style="margin-bottom:10px;">
-          <label class="label">Initial Margin Deposited: <strong x-text="formatCurrency(parseFloat(futMargin)||0)"></strong></label>
-          <input class="range" type="range" min="5000" max="50000" step="1000" x-model="futMargin">
+          <label class="label" for="fut-margin">Initial Margin Deposited: <strong x-text="formatCurrency(parseFloat(futMargin)||0)"></strong></label>
+          <input id="fut-margin" class="range" type="range" min="5000" max="50000" step="1000" x-model="futMargin">
         </div>
         <div class="field" style="margin-bottom:14px;">
-          <label class="label">Account Equity: <strong x-text="formatCurrency(parseFloat(futAccountEquity)||0)"></strong></label>
-          <input class="range" type="range" min="5000" max="100000" step="1000" x-model="futAccountEquity">
+          <label class="label" for="fut-equity">Account Equity: <strong x-text="formatCurrency(parseFloat(futAccountEquity)||0)"></strong></label>
+          <input id="fut-equity" class="range" type="range" min="5000" max="100000" step="1000" x-model="futAccountEquity">
         </div>
 
         <template x-if="futuresResults.marginCall">
