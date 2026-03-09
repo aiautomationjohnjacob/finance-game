@@ -288,6 +288,7 @@
       <button id="tab-portfolio" class="tab" :class="{active: financialsTab==='portfolio'}" @click="financialsTab='portfolio'; $nextTick(()=>{ renderFinancialCharts(); renderStockChart(); })" role="tab" :aria-selected="financialsTab==='portfolio'" aria-controls="panel-portfolio">Portfolio</button>
       <button id="tab-options" class="tab" :class="{active: financialsTab==='options'}" @click="financialsTab='options'" role="tab" :aria-selected="financialsTab==='options'" aria-controls="panel-options">Options</button>
       <button id="tab-futures" class="tab" :class="{active: financialsTab==='futures'}" @click="financialsTab='futures'" role="tab" :aria-selected="financialsTab==='futures'" aria-controls="panel-futures">Futures</button>
+      <button id="tab-budget" class="tab" :class="{active: financialsTab==='budget'}" @click="financialsTab='budget'" role="tab" :aria-selected="financialsTab==='budget'" aria-controls="panel-budget">Budget</button>
     </div>
 
     <!-- ── TAB: DEBT ── -->
@@ -645,6 +646,127 @@
       </div>
 
     </div><!-- /tab-futures -->
+
+    <!-- ── TAB: BUDGET ── -->
+    <div id="panel-budget" class="tab-content" role="tabpanel" aria-labelledby="tab-budget" x-show="financialsTab === 'budget'">
+
+      <template x-if="state">
+        <div>
+
+          <!-- Cash Flow Summary -->
+          <div class="card">
+            <div class="card-title">Monthly Cash Flow</div>
+            <div class="result-row">
+              <span class="result-label">Income</span>
+              <span class="result-value good" x-text="formatCurrency(state.income)"></span>
+            </div>
+            <div class="result-row">
+              <span class="result-label">Fixed Expenses</span>
+              <span class="result-value bad" x-text="formatCurrency(-state.monthlyExpenses)"></span>
+            </div>
+            <div class="result-row" x-show="state.creditCardDebt > 0">
+              <span class="result-label">CC Min. Payment</span>
+              <span class="result-value bad" x-text="formatCurrency(-minPayment(state.creditCardDebt))"></span>
+            </div>
+            <div class="result-row" x-show="state.studentLoanDebt > 0">
+              <span class="result-label">Student Loan Payment</span>
+              <span class="result-value bad" x-text="formatCurrency(-Math.max(100, state.studentLoanDebt * 0.01))"></span>
+            </div>
+            <div class="result-row" x-show="state.mortgage > 0">
+              <span class="result-label">Mortgage Payment</span>
+              <span class="result-value bad" x-text="formatCurrency(-1996)"></span>
+            </div>
+            <div style="border-top:2px solid var(--border);margin-top:10px;padding-top:10px;">
+              <div class="result-row">
+                <span class="result-label" style="font-weight:700;color:var(--text);">Net Cash Flow</span>
+                <span :class="['result-value', (state.income - state.monthlyExpenses - minPayment(state.creditCardDebt)) >= 0 ? 'good' : 'bad']"
+                      x-text="formatCurrency(state.income - state.monthlyExpenses - minPayment(state.creditCardDebt))"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Assets & Liabilities -->
+          <div class="card">
+            <div class="card-title">Assets</div>
+            <div class="result-row">
+              <span class="result-label">Cash on Hand</span>
+              <span class="result-value" x-text="formatCurrency(state.cash)"></span>
+            </div>
+            <div class="result-row" x-show="state.emergencyFund > 0">
+              <span class="result-label">Emergency Fund</span>
+              <span class="result-value good" x-text="formatCurrency(state.emergencyFund)"></span>
+            </div>
+            <div class="result-row" x-show="state.portfolio > 0">
+              <span class="result-label">Investment Portfolio</span>
+              <span class="result-value good" x-text="formatCurrency(state.portfolio)"></span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Liabilities</div>
+            <div class="result-row" x-show="state.creditCardDebt > 0">
+              <span class="result-label">Credit Card Debt (<span x-text="formatPct(state.apr * 100)"></span> APR)</span>
+              <span class="result-value bad" x-text="formatCurrency(state.creditCardDebt)"></span>
+            </div>
+            <div class="result-row" x-show="state.studentLoanDebt > 0">
+              <span class="result-label">Student Loans</span>
+              <span class="result-value bad" x-text="formatCurrency(state.studentLoanDebt)"></span>
+            </div>
+            <div class="result-row" x-show="state.mortgage > 0">
+              <span class="result-label">Mortgage</span>
+              <span class="result-value bad" x-text="formatCurrency(state.mortgage)"></span>
+            </div>
+            <template x-if="state.creditCardDebt === 0 && state.studentLoanDebt === 0 && state.mortgage === 0">
+              <div style="text-align:center;color:var(--green);font-weight:600;padding:8px 0;">🎉 Debt free!</div>
+            </template>
+          </div>
+
+          <!-- Net Worth -->
+          <div class="card metric-primary">
+            <div class="metric-label">Net Worth</div>
+            <div :class="['metric-value', netWorth(state.assets, state.liabilities) >= 0 ? 'positive' : 'negative']"
+                 x-text="formatCurrency(netWorth(state.assets, state.liabilities))"></div>
+            <div style="font-size:0.8rem;color:var(--muted);margin-top:4px;">
+              Change since start: <span
+                :class="(netWorth(state.assets, state.liabilities) - (state.initialNetWorth || 0)) >= 0 ? 'positive' : 'negative'"
+                x-text="formatCurrency(netWorth(state.assets, state.liabilities) - (state.initialNetWorth || 0))"></span>
+            </div>
+          </div>
+
+          <!-- Emergency fund health -->
+          <div class="info-box">
+            💡 <strong>Emergency fund target:</strong> 3–6 months of expenses
+            (<span x-text="formatCurrency(state.monthlyExpenses * 3)"></span> – <span x-text="formatCurrency(state.monthlyExpenses * 6)"></span>).
+            Yours: <strong x-text="formatCurrency(state.emergencyFund)"></strong>.
+            <span x-show="state.emergencyFund < state.monthlyExpenses * 3"> Keep building — you're not fully covered yet.</span>
+            <span x-show="state.emergencyFund >= state.monthlyExpenses * 3" style="color:var(--green)"> ✓ Fully funded!</span>
+          </div>
+
+        </div>
+      </template>
+
+      <!-- No game state — show generic budget tips -->
+      <template x-if="!state">
+        <div>
+          <div class="info-box">
+            Start the game to see your personalized budget breakdown.
+          </div>
+          <div class="card">
+            <div class="card-title">The 50/30/20 Rule</div>
+            <p style="font-size:0.88rem;line-height:1.6;">A simple budgeting framework:</p>
+            <ul style="font-size:0.88rem;line-height:2;padding-left:18px;margin-top:6px;">
+              <li><strong>50%</strong> — Needs (rent, food, utilities, minimum debt payments)</li>
+              <li><strong>30%</strong> — Wants (entertainment, dining out, subscriptions)</li>
+              <li><strong>20%</strong> — Savings &amp; extra debt repayment</li>
+            </ul>
+          </div>
+          <div class="info-box" style="border-left-color:var(--green);background:rgba(16,185,129,0.06);">
+            💡 Even a $50/month surplus invested at 8% annual return grows to over $36,000 in 20 years.
+          </div>
+        </div>
+      </template>
+
+    </div><!-- /tab-budget -->
 
   </div><!-- /screen-financials -->
 

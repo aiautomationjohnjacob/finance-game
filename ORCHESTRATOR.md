@@ -51,3 +51,7 @@ A complete game loop where a player:
 ## When You're Done With an Iteration
 
 Always end by updating `.claude/STATE.md` with what you did and what comes next.
+
+## Additional notes
+
+Ensure the game is **playable** and fun, not just an app that displays mock finances. Ensure its actually fun and has gameplay mechanics.
