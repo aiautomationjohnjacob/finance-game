@@ -1,0 +1,24 @@
+{
+  "name": "finance-game",
+  "version": "1.0.0",
+  "description": "An interactive game that teaches users personal finance concepts through engaging gameplay.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aiautomationjohnjacob/finance-game.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aiautomationjohnjacob/finance-game/issues"
+  },
+  "homepage": "https://github.com/aiautomationjohnjacob/finance-game#readme",
+  "devDependencies": {
+    "playwright": "^1.58.2",
+    "puppeteer": "^24.38.0"
+  }
+}

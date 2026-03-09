@@ -1,0 +1,4 @@
+node_modules/
+scripts/screenshots/
+scripts/test-results/
+/tmp/

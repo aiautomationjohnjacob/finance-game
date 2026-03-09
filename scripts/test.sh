@@ -5,6 +5,9 @@
 
 set -e
 
+# Ensure Chrome can find shared libs extracted to ~/.local/lib
+export LD_LIBRARY_PATH="${HOME}/.local/lib:${LD_LIBRARY_PATH}"
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
 PORT=8765
