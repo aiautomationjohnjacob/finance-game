@@ -15,12 +15,16 @@ Then follow the Phase Decision Tree in loop.md exactly.
 
 ## Quick Reference
 
-- **Run tests:** `bash scripts/test.sh` (auto-detects milestone)
+- **Run tests:** `bash scripts/test.sh` (auto-detects milestone) — LD_LIBRARY_PATH for Chrome is set automatically inside test.sh
 - **Run tests for specific milestone:** `bash scripts/test.sh 3`
 - **View test results:** read `scripts/test-results/latest.json`
-- **View screenshots:** read files in `scripts/screenshots/` (use Read tool to view images)
+- **View screenshots:** files in `scripts/screenshots/` — use the Read tool to view PNG images visually
 - **Commit:** `cd /home/ai/Projects/finance-game && git add -A && git commit -m "..."`
-- **Push:** `git push origin main`
+- **Push:** `git push origin main` — remote is already authenticated via credential helper
+
+## Git Remote Auth Note
+The remote is set to use the gh token. If `git push` fails with auth error, run:
+`git remote set-url origin "https://$(gh auth token)@github.com/aiautomationjohnjacob/finance-game.git"`
 
 ## Architecture Constraint (NEVER FORGET)
 
